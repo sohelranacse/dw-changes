@@ -1,0 +1,52 @@
+
+	
+SELECT user_id, name, mail, phone, ban_global, `enabled_OTP_login`, `otp_pin`,`otp_sent_time`, otp_retrying, otp_blocked_time, is_verified FROM `user` WHERE under_admin IS NULL; 
+
+NO_ZERO_IN_DATE,NO_ZERO_DATE,
+
+ALTER TABLE `user` ADD `enabled_OTP_login` INT(1) NOT NULL COMMENT '0=default,1=enabled' AFTER `socialSignUp`; 
+ALTER TABLE `user` ADD `otp_pin` INT(4) NULL AFTER `profile_visit`, ADD `otp_sent_time` DATETIME NULL AFTER `otp_pin`; 
+ALTER TABLE `user` ADD `otp_retrying` INT NULL DEFAULT '0' AFTER `otp_sent_time`, ADD `otp_blocked_time` DATETIME NULL AFTER `otp_retrying`; 
+
+CREATE DEFINER=`root`@`localhost` EVENT `reset_otp_pin` ON SCHEDULE EVERY 1 MINUTE STARTS '2025-01-09 06:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE user 
+SET otp_pin = NULL, 
+    otp_sent_time = NULL
+WHERE otp_sent_time < NOW() - INTERVAL 15 MINUTE;
+
+DROP TABLE IF EXISTS `user_temp`;
+CREATE TABLE IF NOT EXISTS `user_temp` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `gender` int(1) NOT NULL COMMENT '1=Male,2=Female',
+  `birth` date NOT NULL,
+  `mail` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `phone_number` varchar(13) COLLATE utf8_unicode_ci NOT NULL,
+  `poster_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `signup_as` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `otp_pin` int(4) DEFAULT NULL,
+  `otp_sent_time` datetime DEFAULT NULL,
+  `enabled_OTP_login` int(1) NOT NULL COMMENT ' 	0=default,1=enabled ',
+  `socialSignUp` int(1) NOT NULL COMMENT '0=default,1=social ',
+  `ip_address` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `added_on` datetime NOT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `user_temp` ADD `is_verified` INT NOT NULL COMMENT '0=default,1=verified' AFTER `enabled_OTP_login`;
+
+CREATE DEFINER=`root`@`localhost` EVENT `reset_signup_otp_pin` ON SCHEDULE EVERY 1 MINUTE STARTS '2025-01-09 06:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE user_temp 
+SET otp_pin = NULL, 
+    otp_sent_time = NULL
+WHERE otp_sent_time < NOW() - INTERVAL 15 MINUTE;
+
+SET GLOBAL event_scheduler="ON";
+
+SELECT @@global.time_zone, @@session.time_zone;
+SHOW VARIABLES LIKE 'event_scheduler';
+
+SET time_zone = '+06:00';
+
+
+-> Join with photo only
+-> Forced profile picture upload, Minimum number of photos for the user to be able to use the site: 1
