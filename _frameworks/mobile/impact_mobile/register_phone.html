@@ -1,0 +1,224 @@
+{header}
+<script type="text/javascript" src="{url_tmpl_mobile}js/join.js{cache_version_param}"></script>
+<script id="script_replace_page">
+    
+    <!-- begin_without_auth -->
+    urlPageHistory='{url_page_join}?signup_as={signup_as}&by={by}';
+    <!-- end_without_auth -->
+
+    <!-- begin_with_auth -->
+    urlPageHistory='{url_page_join_facebook}?cmd={cmd}&type={type}';
+    <!-- end_with_auth -->
+
+</script>
+<div class="page_content_inner txt_shadow">
+    <script>
+    var joinLangParts = {
+        incorrect_date : '{j_incorrect_date}',
+        incorrect_email : '{j_incorrect_email}',
+        incorrect_phone : '{j_phone_number_is_not_valid}',
+        incorrect_city : '{j_we_need_a_city}',
+        next : '{j_next}',
+        done : '{j_done}',
+        incorrect_password_contain : '{j_invalid_password_contain}',
+        incorrect_password_length : '{max_min_length_password}',
+        incorrect_name : '{j_invalid_username}',
+        incorrect_name_length : '{max_min_length_username}',
+        choose_a_city : '{j_choose_a_city}',
+        choose_a_state : '{j_choose_a_state}'
+    };
+    var isIos = '{is_ios}'*1,
+        isRecaptcha=false,
+        minCahrPass='{password_length_min}'*1,
+        maxCahrPass='{password_length_max}'*1,
+        minCahrName='{username_length_min}'*1,
+        maxCahrName='{username_length}'*1,
+        minAge='{users_age}'*1,
+        lMaxMinLengthPassword='{max_min_length_password}',
+        lMaxMinLengthUsername='{max_min_length_username}';
+        nameLengthMin='{username_length_min}'*1;
+
+    <!-- begin_re_captcha_js -->
+    isRecaptcha=true;
+    var recaptchaWd,verifyCallback = function(response) {
+            resetError($('#recaptcha'));
+        };
+    var onloadCallback = function() {
+        setTimeout(function(){
+            clJoin.prepareReCaptcha();
+        },300);
+        recaptchaWd = grecaptcha.render('recaptcha', {
+            'sitekey' : '{re_captcha_sitekey}',
+            'callback' : verifyCallback,
+            'theme' : '{re_captcha_theme}'
+        });
+    };
+    <!-- end_re_captcha_js -->
+    var clJoin = new CJoin();
+    clJoin.initJoin();
+    
+    var phone_numberTel;
+
+    $(document).ready(function() {
+        phone_numberTel = window.intlTelInput(document.querySelector("#join_phone_number"), {
+            separateDialCode: true,
+            preferredCountries: ["bd", "us", "gb", "sa", "ae"],
+            hiddenInput: "full",
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.3/build/js/utils.js"
+        });
+
+        // Initialize any functionality in join.js that depends on phone_numberTel here, or signal join.js that initialization is done
+        if (typeof CJoin !== 'undefined' && typeof clJoin.initAfterPhoneNumber !== 'undefined') {
+            clJoin.initAfterPhoneNumber();
+        }
+    });
+</script>
+<div id="form_box" class="bl_frm large_field">
+    <input type="hidden" name="cmd" class="ajax" value="register" />
+    <input type="hidden" name="ajax" class="ajax" value="1" />
+
+
+    <!-- begin_showEmail -->
+    <p style="text-align: center;font-size: 18px">{email}</p>
+    <!-- end_showEmail -->
+
+    <div class="form-divider">
+        <!-- begin_sign_up_as_matchmaker -->
+        <p class="signUpMatchmaker"><strong>{l_signup_as}:</strong> {l_matchmaker}</p>
+        <select id="bl_join_signup_as" name="signup_as" class="i_am" style="display: none;">
+            <option value="matchmaker">Matchmaker</option>
+        </select>
+        <!-- end_sign_up_as_matchmaker -->
+
+        <div class="bl">
+            <label>{l_name} <span class="r_required">*</span></label>
+            <input id="user_name" name="join_name" maxlength="100" class="inp register" type="text" value="{join_handle}" placeholder="{l_type_name}" onkeyup="clJoin.validateNameCustom(this.value)" autocomplete="off" readonly onclick="this.removeAttribute('readonly');" />
+            <div id="join_name_error" class="error"></div>
+        </div>
+
+        <!-- begin_field_orientation -->
+        <div class="bl">
+            <label>{l_gender} <span class="r_required">*</span></label>
+            <div class="field">
+                <select name="orientation" id="orientation" onchange="clJoin.orientationCustom(this.value)" required>
+                    <option value="">{l_select}</option>
+                    {orientation_options}
+                </select>
+            </div>
+            <div id="orientation_error" class="error"></div>
+        </div>
+        <!-- end_field_orientation -->
+
+        <form id="form_birthday" name="frm_date" action="" autocomplete="off" class="form_birthday">
+            <div class="bl">
+                <label>{l_date_birth} <span class="r_required">*</span></label>
+                <div class="field birthday">
+                    <div class="item l">
+                    <select name="day" id="day" class="s_birthday" onchange="clJoin.birthdayCustom()" required>
+                    <option value="">{l_select}</option>
+                    {day_options}
+                    </select>
+                    </div>
+                    <div class="item c">
+                    <select name="month" id="month" class="s_birthday" onchange="clJoin.birthdayCustom()" required>
+                    <option value="">{l_select}</option>
+                    {month_options}
+                    </select>
+                    </div>
+                    <div class="item r">
+                    <select name="year" id="year" class="s_birthday" onchange="clJoin.birthdayCustom()" required>
+                    <option value="">{l_select}</option>
+                    {year_options}
+                    </select>
+                    </div>
+                </div>
+                <div id="birth_error" class="error"></div>
+            </div>
+        </form>
+
+        <div class="bl">
+            <label>{l_email} <span class="r_required">*</span></label>
+            <input id="email" name="email" class="inp register mail" type="text" value="" placeholder="{a_placeholder_email}" onkeyup="clJoin.validateEmail(this.value)" autocomplete="off" readonly onclick="this.removeAttribute('readonly');" required />
+            <div id="email_error" class="error"></div>
+        </div>
+        <div class="bl" {passwordDisplay}>
+            <label>{l_password} <span class="r_required">*</span></label>
+            <input id="password" name="join_password" class="inp register" type="password" value="{default_password}" placeholder="{l_type_password}" onkeyup="clJoin.validatePassCustom(this.value)" autocomplete="off" readonly onclick="this.removeAttribute('readonly');" />
+            <label style="margin-top: 7px">
+                <input type="checkbox" id="show_password" /> <span style="vertical-align: middle;">Show Password</span>
+            </label>
+
+            <div id="password_error" class="error"></div>
+            <div id="password_requirements" class="password_requirements">{l_format_password}</div>
+        </div>
+
+        <div class="bl">
+            <label>{l_phone_number} <span class="r_required">*</span></label>
+            <input id="join_phone_number" class="inp" type="number" value="{join_phone}" placeholder="{l_placeholder_phone}" maxlength="14" autocomplete="off" onkeyup="clJoin.checkPhoneNumber(this.value)" readonly onclick="this.removeAttribute('readonly');" required />
+            <input type="hidden" class="inp" name="join_phone" id="full_phone_number"/>
+            <div id="phone_error" class="error" style="padding-bottom: 10px;"></div>
+        </div>
+    </div>
+    <input type="hidden" class="inp" name="by_phone" value="1">
+
+    <!-- begin_default_captcha -->
+    <div class="bl">
+        <label>{l_enter_code} <span class="r_required">*</span></label>
+        <div class="field bl_capcha">
+            <div class="item l capcha">
+                <img title="{l_refresh}" id="img_join_captcha" onclick="clJoin.refreshCaptcha();" src="../_server/securimage/securimage_show_custom.php?site_part_mobile=1&sid={sid}">
+            </div>
+            <div class="item c">
+                <img title="{l_refresh}" onclick="clJoin.refreshCaptcha();" src="{url_tmpl_mobile}images/icon_refresh.svg">
+            </div>
+            <div class="item r">
+                <input id="captcha" data-of=".bl_capcha" name="captcha" class="inp register" type="text" value=""/>
+            </div>
+        </div>
+    </div>
+    <!-- end_default_captcha -->
+    <!-- begin_re_captcha -->
+    <div class="bl">
+        <label>{l_enter_code} <span class="r_required">*</span></label>
+        <div id="recaptcha_bl" class="recaptcha_bl">
+            <div id="recaptcha" class="recaptcha"></div>
+        </div>
+        <div class="cl"></div>
+    </div>
+    <!-- end_re_captcha -->
+
+    <div class="bl">
+        <div class="info_txt small prev">
+            <div class="custom_checkbox no_hide">
+                <input id="agree" type="checkbox"/>
+                <label for="agree"><span></span>
+                    {l_i_agree_to_the}
+                    <a class="go_to_page link_info" data-cl-loader="loader_link_info" href="{url_main}{url_page_terms}">{l_terms}</a> {l_and}
+                    <a class="go_to_page link_info" data-cl-loader="loader_link_info" href="{url_main}{url_page_privacy_policy}">{l_privacy_policy}</a>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="bl bl_one">
+        <div class="frm_btn">
+            <button id="form_register_submit" class="btn large pink">{l_submit}</button>
+        </div>
+    </div>
+
+    <div class="bl">
+        <div class="info_txt small next">
+            <a class="go_to_page link_info link_back_login" data-cl-loader="loader_link_info" href="{url_main}{url_page_login}">{l_go_to_login_page}</a>
+        </div>
+    </div>
+</div>
+<!-- begin_banner_footer_mobile_content -->
+<div class="banner_content_visitor {banner_footer_mobile_content_class}">
+    {banner_footer_mobile_content}
+</div>
+<!-- end_banner_footer_mobile_content -->
+<!-- begin_re_captcha_script -->
+<script src="//www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl={re_captcha_lang}" async defer></script>
+<!-- end_re_captcha_script -->
+</div>
+{footer}

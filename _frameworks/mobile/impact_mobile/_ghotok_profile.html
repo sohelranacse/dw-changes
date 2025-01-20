@@ -1,0 +1,572 @@
+<script type="text/javascript" src="../_server/jquery/jquery.autosize.js{cache_version_param}"></script>
+<script id="script_replace_page">
+    urlPageHistory='{url_page_profile_view}{url_get_params}';
+    urlPageHistorySetHash=true;
+    <!-- begin_profile_content_load_ajax -->
+    urlPageHistorySetHash=false;
+    <!-- end_profile_content_load_ajax -->
+</script>
+<!-- begin_profile_custom_header_js -->
+<!-- end_profile_custom_header_js -->
+<!-- begin_profile_custom_header_visitor_js -->
+<script type="text/javascript" src="../_server/js/chart.bundle.min.js{cache_version_param}"></script>
+<!-- end_profile_custom_header_visitor_js -->
+<div class="bl_profile_wrap">
+<script>
+    clProfile.setData({
+        uid : '{user_id}'*1,
+        isBlockedUser:'{is_blocked_user}'*1,
+        isReportUser:'{is_report_user}'*1,
+        countMsgIm:'{count_msg_im}'*1,
+        isUploadPhotoToSeePhotos:'{is_upload_photo_to_see_photos}'*1,
+        pleaseUploadPhotoToSeePhotos:'{please_upload_photo_to_see_photos}'
+    })
+
+    var clPhoto = new CProfilePhoto('{user_id}'*1);
+    clPhoto.setData({
+        guid:'{guid}'*1,
+        fuid:'{friend_id}'*1,
+        gender:'{gender}',
+        maxFileSize:'{photo_file_size_limit}'*1,
+        maxVideoSize:'{video_file_size_limit}'*1,
+        uploadLimitPhotoCount:'{upload_limit_photo_count}'*1,
+        upload_more_than_limit: '{upload_more_than_limit}',
+        photosCount:'{profile_number_photos}'*1,
+        maxFileSize_photo:'{max_photo_file_size_limit}',
+        maxFileSize_video:'{max_video_file_size_limit}',
+		live_price: '{live_price}'*1
+    });
+</script>
+<script type="text/javascript">
+    var progressWidth;
+    $(document).ready(function() {
+        var progressBar = $('#profileProgress');
+        progressWidth = {profile_completed};
+
+        window.updateProgressBar = function() {
+            progressBar.width(progressWidth + '%');
+
+            if(progressWidth > 45)
+                progressBar.text('{l_profile_completed} ' + progressWidth + '%');
+            else
+                progressBar.text(progressWidth + '%');
+        }
+
+        // Initial update
+        updateProgressBar();
+    });
+</script>
+<div id="main_content_block" class="bl_profile">
+
+
+    <div id="main_content_block_info" class=""><!-- accel -->
+    <div class="bl_profile_pic">
+        <div class="pic">
+            <div class="bl" onclick="clPhoto.openGalleryMainPhoto($(this),event);">
+                <img id="profile_photo_b" data-load-size="false" class="main_photo_bm <!-- begin_photo_main_no_photo -->empty_photo<!-- end_photo_main_no_photo --><!-- begin_photo_main_plug_private_photos -->plug_private_photos<!-- end_photo_main_plug_private_photos -->" src="{url_files}{photo_main}" alt="">
+                <script>
+                    clProfile.setSrcPhotoProfile('{url_files}{photo_main}');
+                </script>
+
+                <!-- begin_photo_main_upload -->
+                <div id="add_photo_main" class="add_photo" <!-- begin_photo_main_upload_btn -->style="display:block;"<!-- end_photo_main_upload_btn -->>
+                    <div class="file">
+                        <form onsubmit="clPhoto.submitUpload($(this)); return false;" data-type="public" class="form_add_photo" method="post" enctype="multipart/form-data" action="{url_main}profile_photo.php?type=public">
+                            <button class="btn small violet">
+                                <i class="fa fa-camera" aria-hidden="true"></i>
+                                <!-- {l_add_a_photo} -->
+                            </button>
+                            <input onclick="clPhoto.clickUpload($(this));" onChange="clPhoto.changeUploadMain($(this));" data-type="public" class="file" type="file" accept="image/*" name="file_add_public"/>
+                            <input type="reset" value=""/>
+                            <input type="submit" value=""/>
+                        </form>
+                    </div>
+                </div>
+                <!-- end_photo_main_upload -->
+                <!-- begin_profile_user_blocked_bl -->
+                <div id="profile_user_blocked_bl" class="user_blocked <!-- begin_profile_user_blocked_bl_show -->to_show<!-- end_profile_user_blocked_bl_show -->">
+                    <a href="" onclick="clProfile.confirmBlockUser(); return false;">{l_profile_menu_user_unblock}</a>
+                </div>
+                <!-- end_profile_user_blocked_bl -->
+                <!-- begin_status_online_profile_bl -->
+                <div id="profile_status_online" title="{status_online_profile_title}" class="status online profile <!-- begin_status_online_profile -->to_show<!-- end_status_online_profile -->"></div>
+                <!-- end_status_online_profile_bl -->
+
+                <!-- begin_profile_verification_verified -->
+                <!-- <div class="bl_profile_verification">
+                    <a class="btn_profile_verification profile_verification_link {profile_verification_off_class} {profile_verification_show_class}" href="#" title="{profile_verification_verified}">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    </a>
+                </div> -->
+                <!-- end_profile_verification_verified -->
+
+            </div>
+        </div>
+        {profile_user_menu}
+        {profile_charts}
+    </div>
+    <div class="bl_profile_info">
+        <div class="top">
+            <div class="figure"></div>
+            <div class="info">
+                <div id="profile_name" class="name"><span>{user_name}</span></div>
+                <script>clProfile.prepareProfileName();</script>
+                <div class="bl_list_info">
+                    <ul class="list_info">
+                        <li id="profile_city">{city_title}</li>
+                    </ul>
+                    <!-- begin_profile_main_edit -->
+                    <div class="title_icon_edit_bl" onclick="clProfile.handlerLinkSetTabs($(this),'pp_profile_edit_main',false,false,'#tabs-5');" data-type-loader="fade_btn" data-cl-loader="loader_pen_small">
+                        <i class="fa fa-pencil no_color_t" aria-hidden="true"></i>
+                    </div>
+                    <!-- end_profile_main_edit -->
+                </div>
+            </div>
+        </div>
+
+
+        <div id="profile_bot" class="bot">
+            <div class="line"></div>
+
+            <label class="matchmakerLabelShow">{l_matchmaker}</label>
+            
+            <!-- begin_profile_im_reply_rate -->
+            <div class="bl_profile_btn">
+
+                <!-- begin_not_group_admin_of_the_user -->
+                <div class="bl">
+                    <button data-cl-loader="btn_profile_to_message_one" data-type-loader="fade_btn" data-id="{ua_user_id}" data-url="{url_main}{url_page_messages}?display=one_chat&user_id={user_id}" onclick="clProfile.openProfileMsg($(this));" class="profile_btn_messages btn dgrey small">
+                        <div class="decor">
+                            {l_profile_message}
+                            <div id="profile_im_reply_rate_decor" class="border_decor im_reply_rate_{im_reply_rate_class}"></div>
+                        </div>
+                    </button>
+                </div>
+                <!-- end_not_group_admin_of_the_user -->
+                <div class="bl">
+                    <div id="btn_send_like" class="icon <!-- begin_mutual_attraction_active -->selected<!-- end_mutual_attraction_active -->" onclick="clProfile.sendLikeProfile('{user_id}',$(this));">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                </div>
+            </div>
+            <!-- end_profile_im_reply_rate -->
+            <div class="bl_profile_icons" style="margin: 10px 10px 0">
+                <div class="bl">
+                    <a id="link-tabs-1" href="#tabs-1" class="icon link_tabs">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </a>
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </div>
+                <div class="bl">
+                    <a id="link-albums" onclick="clProfile.goToAlbums(); return false;" href="#albums-public" class="icon link_tabs">
+                        <i class="fa fa-camera" aria-hidden="true"></i>
+                    </a>
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile_info_figure_bottom">
+        <div class="decor"></div>
+        <!-- <img src="{url_tmpl_mobile}images/profile_info_figure_bottom.svg" alt="" /> -->
+    </div>
+    </div>
+    <div id="cont_wrap" class="cont_wrap "><!-- accel -->
+        <!-- PROFILE INFO -->
+        <div id="tabs-1_switch" class="profile_info_content profile_info_content_main ghotokAbout">
+
+        <div class="ghotok_profile_verification">
+            <!-- begin_email_verified -->
+                <img src="{url_tmpl_mobile}images/email.png" width="30" height="30" alt="{l_email_verified} icon" title="{l_email_verified}" />
+            <!-- end_email_verified -->
+
+            <!-- begin_phone_number_verified -->
+            <img src="{url_tmpl_mobile}images/phone.png" width="30" height="30" alt="{l_phone_number_verified} icon" title="{l_phone_number_verified}" />
+            <!-- end_phone_number_verified -->
+
+            <!-- begin_nid_verified -->
+            <img src="{url_tmpl_mobile}images/nid.png" width="30" height="30" alt="{l_nid_verified} icon" title="{l_nid_verified}" />
+            <!-- end_nid_verified -->
+        </div>
+
+
+        <div class="bl" id="ghotok_summary_section">
+            <div class="title">
+                <div class="title_icon_edit">{l_ghotok_summary}                                                                     
+                    <div class="title_icon_edit_bl" onclick="clProfile.handlerLinkSetTabs2($(this),'loadGhotokSummary');"  data-type-loader="fade_btn" data-cl-loader="loader_pen">
+                        <i class="fa fa-pencil no_color_t" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="cl"></div>
+            </div>
+            <ul id="ul_list" style="line-height: 22px;">
+                {ghotok_summary_data_mobile}
+            </ul>
+        </div>
+
+        <div class="bl" id="years_in_experience_section">
+            <div class="title">
+                <div class="title_icon_edit">{l_years_in_business}                                                                     
+                    <div class="title_icon_edit_bl" onclick="clProfile.handlerLinkSetTabs2($(this),'loadYearsInExperience');"  data-type-loader="fade_btn" data-cl-loader="loader_pen">
+                        <i class="fa fa-pencil no_color_t" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="cl"></div>
+            </div>
+            <ul id="ul_list">
+                {years_in_business_data}
+            </ul>
+        </div>
+
+
+        <!-- begin_edit_me_or_my_candidate -->
+
+            <!-- begin_address_block -->
+            <div class="bl">
+                <div class="title">
+                    <div class="title_icon_edit">{l_address}                               
+                        <!-- begin_address_edit -->
+                        <div class="title_icon_edit_bl" onclick="clProfile.handlerLinkSetTabs2($(this),'get_address_field');"  data-type-loader="fade_btn" data-cl-loader="loader_pen">
+                            <i class="fa fa-pencil no_color_t" aria-hidden="true"></i>
+                        </div>
+                        <!-- end_address_edit -->
+                    </div>
+                    <div class="cl"></div>
+                </div>
+                <ul id="ul_list">
+                    <li id="current_address"><!-- begin_current_address --><i class="fa fa-map-marker"></i> {current_address}<!-- end_current_address --></li>
+                    <li id="permanent_address"><!-- begin_permanent_address --><i class="fa fa-home"></i> {permanent_address}<!-- end_permanent_address --></li>
+                </ul>
+            </div>
+            <!-- end_address_block -->
+
+        <!-- end_edit_me_or_my_candidate -->
+
+        <!-- begin_footer_member -->
+
+            <!-- begin_verify_phone_number -->
+            <div class="bl">
+                <div class="title">
+                    <div class="title_icon_edit">{l_verify_phone_number}
+                        <!-- begin_verify_phone -->
+                        <div class="title_icon_edit_bl" id="change_phone_number" onclick="clProfile.handlerLinkSetTabs2($(this),'loadChangePhoneNumber');"  data-type-loader="fade_btn" data-cl-loader="loader_pen">
+                            <i class="fa fa-pencil no_color_t" aria-hidden="true"></i>
+                        </div>
+                        <!-- end_verify_phone -->
+                    </div>
+                    <div class="cl"></div>
+                </div>
+                <ul id="ul_list">
+                    <li>
+                        <i class="fa fa-phone"></i> {user_phone_number} (<span id="verify_status">{phone_verification_status}</span>)
+                        
+                        <!-- begin_verify_button -->
+                        <button class="btn small turquoise" style="width: 60px" type="button" onclick="clProfile.handlerLinkSetTabs2($(this),'loadVerifyPhoneNumber');">{l_verify}</button>
+                        <!-- end_verify_button -->
+                    </li>
+                </ul>
+            </div>
+            <!-- end_verify_phone_number -->
+
+            <!-- begin_add_phone_number -->
+            <div class="bl">
+                <div class="title">
+                    <div class="title_icon_edit">{l_add_phone_number}
+                        <div class="title_icon_edit_bl" id="verify_phoneNumber" onclick="clProfile.handlerLinkSetTabs2($(this),'loadAddPhoneNumber');" data-type-loader="fade_btn" data-cl-loader="loader_pen">
+                            <i class="fa fa-pencil no_color_t" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="cl"></div>
+                </div>
+            </div>
+            <!-- end_add_phone_number -->
+
+            <!-- begin_enable_nid_verification -->
+            <div class="bl">
+                <div class="title">
+                    <div class="title_icon_edit">{l_nid_verify_title}</div>
+                    <div class="cl"></div>
+                </div>
+                <ul id="ul_list" class="profile_nid">
+                    <!-- common -->
+                        <li>
+                            <label class="paid_service_label"><i class="fa fa-money" aria-hidden="true"></i> {l_paid_service}, Fee: <strong>{NID_VERIFICATION_FEE}tk.</strong></label>
+                        </li>
+                    <!-- common end -->
+
+                    <!-- begin_nid_verification_paid -->
+                        <li>
+                            <label class="paid_nid_label">{nid_verification_paid_title}</label>
+                        </li>
+                    <!-- end_nid_verification_paid -->
+
+                    <!-- begin_nid_verification_unpaid -->
+                        <li>
+                            <label class="unpaid_nid_label">{nid_verification_paid_title}</label>
+                        </li>
+                    <!-- end_nid_verification_unpaid -->
+
+                    <!-- begin_nid_upload_button -->
+                        <li class="nid_dual_button">
+                            <!-- begin_nid_pay_fee_button -->
+                            <button class="btn small turquoise pay_nid_fee" type="button" onclick="clProfile.PayNIDFee('{user_id}')">
+                                <i class="fa fa-shopping-basket" aria-hidden="true"></i> {l_pay_fee}
+                            </button>
+                            <!-- end_nid_pay_fee_button -->
+
+                            <button type="button" class="btn small turquoise" id="upload_nid" onclick="clProfile.handlerLinkSetTabs2($(this),'loadNidUploadPage');"  data-type-loader="fade_btn" data-cl-loader="loader_pen">
+                                <i class="fa fa-file-pdf-o" aria-hidden="true"></i> {l_upload_nid}
+                            </button>
+                        </li>
+                    <!-- end_nid_upload_button -->
+
+                    <!-- begin_view_verified_nid -->
+                        <li>
+                            <a href="{url_files}nid/{nid_front_part}" class="view_nid" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> {l_view_nid_front_part}</a>
+                        </li>
+                        <li>
+                            <a href="{url_files}nid/{nid_back_part}" class="view_nid" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> {l_view_nid_back_part}</a>
+                        </li>
+                        <li style="color: #8ccd00;margin-top: 5px;font-size: 14px;">
+                            <i class="fa fa-circle" aria-hidden="true" style="color: #8ccd00"></i> <b>{nid_verify_text}</b>
+                        </li>
+                    <!-- end_view_verified_nid -->
+
+                    <!-- begin_uploaded_nid -->
+
+                        <!-- begin_nid_pay_fee_button1 -->
+                            <li style="margin: 5px 0 8px" class="nid_dual_button">
+                                <button class="btn small turquoise pay_nid_fee" type="button" onclick="clProfile.PayNIDFee('{user_id}')">
+                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i> {l_pay_fee}
+                                </button>
+                            </li>
+                        <!-- end_nid_pay_fee_button1 -->
+
+                        <li>
+                            <a href="{url_files}nid/{nid_front_part}" class="view_nid" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> {l_view_nid_front_part}</a>
+                        </li>
+                        <li>
+                            <a href="{url_files}nid/{nid_back_part}" class="view_nid" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> {l_view_nid_back_part}</a>
+                        </li>
+                        <li style="margin-top: 5px;font-size: 14px;">
+                            <i class="fa fa-circle" aria-hidden="true" style="color: #8ccd00"></i> <b>{nid_verify_text}</b>
+                        </li>
+                    <!-- end_uploaded_nid -->
+
+                    <!-- begin_rejected_nid -->
+                        <li style="margin: 10px 0;" class="nid_dual_button">
+                            <!-- begin_nid_pay_fee_button2 -->
+                            <button class="btn small turquoise pay_nid_fee" type="button" onclick="clProfile.PayNIDFee('{user_id}')">
+                                <i class="fa fa-shopping-basket" aria-hidden="true"></i> {l_pay_fee}
+                            </button>
+                            <!-- end_nid_pay_fee_button2 -->
+
+                            
+                            <button type="button" class="btn small turquoise" id="upload_nid" onclick="clProfile.handlerLinkSetTabs2($(this),'loadNidUploadPage');"  data-type-loader="fade_btn" data-cl-loader="loader_pen">
+                                <i class="fa fa-file-pdf-o" aria-hidden="true"></i> {l_upload_nid}
+                            </button>
+                        </li>
+                        <li>
+                            <a href="{url_files}nid/{nid_front_part}" class="view_nid" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> {l_view_nid_front_part}</a>
+                        </li>
+                        <li>
+                            <a href="{url_files}nid/{nid_back_part}" class="view_nid" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> {l_view_nid_back_part}</a>
+                        </li>
+                        <li style="margin-top: 5px;font-size: 13px;">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i> {l_reason}: {nid_reason_for_rejection}
+                        </li>
+                        <li style="color: tomato;margin-top: 5px;font-size: 14px;">
+                            <i class="fa fa-circle" aria-hidden="true" style="color: tomato"></i> <b style="color: tomato;">{nid_verify_text}</b>
+                        </li>
+                    <!-- end_rejected_nid -->
+                </ul>
+            </div>
+            <!-- end_enable_nid_verification -->
+        <!-- end_footer_member -->
+
+        <!-- begin_browse_invisibly -->
+        <div class="bl">
+            <a class="btn_browse_invisibly lblue go_to_page" data-type-loader="fade_btn" onclick="clProfile.setBrowseInvisibly($(this),'{browse_invisibly_param}'); return false;" href="">
+                <i class="fa fa-eye" aria-hidden="true"></i> <span>{l_browse_invisibly}</span>
+            </a>
+        </div>
+        <!-- end_browse_invisibly -->
+        </div>
+        <!-- PROFILE INFO -->
+        <!-- PHOTO -->
+        <div id="albums_switch" class="profile_info_content profile_info_content_photo">
+        <!-- begin_photo_public_block -->
+        <div id="albums-public_to_scroll" class="list_photos_public list_photos">
+            <!-- begin_photo_public_add -->
+            <div id="photo_add_public" class="item add_photo">
+                <div class="add_file_icon" onclick="return clPhoto.checkUploadLimit();">
+                    <form  onsubmit="clPhoto.submitUpload($(this)); return false;" data-type="public" class="form_add_photo" method="post" enctype="multipart/form-data" action="{url_main}profile_photo.php?type=public">
+                        <input onclick="clPhoto.clickUpload($(this));" onChange="clPhoto.changeUpload($(this));" data-type="public" class="file" type="file" accept="image/*" name="file_add_public"/>
+                        <input type="reset" value=""/>
+                        <input type="submit" value=""/>
+                    </form>
+                </div>
+            </div>
+            <!-- end_photo_public_add -->
+            <!-- begin_photo_public -->
+            <div id="photo_item_{photo_public_id}" class="item">
+                <div class="item_cont loader" onclick="clPhoto.openGalleryId('{photo_public_id}', $(this), event);">
+                <a href="#tabs-3" onclick="return false;">
+                    <img id="photo_{photo_public_id}" oncontextmenu="return false;" class="photo lazy_deferred" data-src="{url_files}{url_photo_public}" src="{url_tmpl_mobile}images/loader_lazy.svg"  alt="" />
+                </a>
+                <script>clPhoto.setPhotoInfo('{photo_public_id}', {gallery_photo_public_info});</script>
+                <!-- begin_photo_public_not_checked -->
+                <div class="not_checked_photo"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+                <!-- end_photo_public_not_checked -->
+                <!-- begin_photo_public_action -->
+                <div class="icons_photo">
+                    <span class="icon_background" onclick="clPhoto.confirmPhotoDelete('{photo_public_id}');"><span class="icon cancel"></span></span>
+                    <span class="icon_background" onclick="clPhoto.photoAccess('{photo_public_id}');"><span class="icon lock icon_status"></span></span>
+                    <span class="icon_background" onclick="clPhoto.photoRotate('{photo_public_id}');"><span class="icon rotate"></span></span>
+                </div>
+                <!-- end_photo_public_action -->
+                </div>
+            </div>
+            <!-- end_photo_public -->
+            <div class="cl"></div>
+        </div>
+        <!-- end_photo_public_block -->
+        <!-- begin_photo_private_block -->
+        <div class="title line">
+            <div class="title_icon_edit">{l_private_photos}</div>
+            <div class="cl"></div>
+        </div>
+        <div id="albums-private_to_scroll" class="list_photos_private list_photos">
+            <!-- begin_photo_private_add -->
+            <div id="photo_add_private" class="item add_photo">
+                <div class="add_file_icon"  onclick="return clPhoto.checkUploadLimit();">
+                    <form onsubmit="clPhoto.submitUpload($(this)); return false;" data-type="private" class="form_add_photo" method="post" enctype="multipart/form-data" action="{url_main}profile_photo.php?type=private">
+                        <input onclick="clPhoto.clickUpload($(this));" onChange="clPhoto.changeUpload($(this));" data-type="private" class="file" type="file" accept="image/*" name="file_add_private" />
+                        <input type="reset" value=""/>
+                        <input type="submit" value=""/>
+                    </form>
+                </div>
+            </div>
+            <!-- end_photo_private_add -->
+            <!-- begin_photo_private -->
+            <div id="photo_item_{photo_private_id}" class="item">
+                <div class="item_cont loader" onclick="clPhoto.openGalleryId('{photo_private_id}', $(this), event);">
+                <a href="#tabs-3" onclick="return false;">
+                    <img id="photo_{photo_private_id}" oncontextmenu="return false;" class="photo lazy_deferred" data-src="{url_files}{url_photo_private}" src="{url_tmpl_mobile}images/loader_lazy.svg" alt="" />
+                </a>
+                <script>clPhoto.setPhotoInfo('{photo_private_id}', {gallery_photo_private_info});</script>
+                <!-- begin_photo_private_not_checked -->
+                <div class="not_checked_photo icons_action" title="{a_being_checked_by_moderators}"></div>
+                <!-- end_photo_private_not_checked -->
+                <!-- begin_photo_private_action -->
+                <div class="icons_photo icons_action">
+                    <span class="icon_background" onclick="clPhoto.confirmPhotoDelete('{photo_private_id}');"><span class="icon cancel"></span></span>
+                    <span class="icon_background" onclick="clPhoto.photoAccess('{photo_private_id}');"><span class="icon unlock icon_status"></span></span>
+                    <span class="icon_background" onclick="clPhoto.photoRotate('{photo_private_id}');"><span class="icon rotate"></span></span>
+                </div>
+                <!-- end_photo_private_action -->
+                </div>
+            </div>
+            <!-- end_photo_private -->
+            <div class="cl"></div>
+        </div>
+        <!-- end_photo_private_block -->
+        <!-- begin_video_public_block -->
+        <div class="title line">
+            <div class="title_icon_edit">{l_videos}</div>
+            <div class="cl"></div>
+        </div>
+        <div id="albums-video_to_scroll"  class="list_photos_public list_photos list_videos">
+            <!-- begin_video_public_add -->
+            <div id="video_add_public" class="item add_photo">
+                <div class="add_file_icon">
+                    <form  onsubmit="clPhoto.submitUpload($(this)); return false;" data-type="public" data-is_video="1" class="form_add_photo" method="post" enctype="multipart/form-data" action="{url_main}profile_photo.php?type=public">
+                        <input onclick="clPhoto.clickUpload($(this));" onChange="clPhoto.changeUpload($(this));" data-type="public" class="file" type="file" accept="video/*" name="file_add_public_bind"/>
+                        <input type="reset" value=""/>
+                        <input type="submit" value=""/>
+                    </form>
+                </div>
+            </div>
+            <!-- end_video_public_add -->
+            <!-- begin_video_public -->
+            <div id="photo_item_{video_public_id}" class="item">
+                <div class="item_cont loader" onclick="clPhoto.openGalleryId('{video_public_id}', $(this), event);">
+                <a href="#tabs-3" onclick="return false;">
+                    <img id="photo_{video_public_id}" oncontextmenu="return false;" class="photo lazy_deferred" data-src="{url_files}{url_video_public}" src="{url_tmpl_mobile}images/loader_lazy.svg"  alt="" />
+                </a>
+                <script>clPhoto.setPhotoInfo('{video_public_id}', {gallery_video_public_info});</script>
+                <!-- begin_video_public_not_checked -->
+                <div class="not_checked_photo"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+                <!-- end_video_public_not_checked -->
+                <!-- begin_video_public_action -->
+                <div class="icons_photo">
+                    <span class="icon_background" onclick="clPhoto.confirmPhotoDelete('{video_public_id}');"><span class="icon cancel"></span></span>
+                </div>
+                <!-- end_video_public_action -->
+                </div>
+            </div>
+            <!-- end_video_public -->
+            <div class="cl"></div>
+        </div>
+        <!-- end_video_public_block -->
+        </div>
+        <!-- PHOTO -->
+        <div id="tabs-4_switch" class="profile_info_content"></div>
+        <div id="tabs-5_switch" class="profile_info_content"></div>
+    </div>
+</div>
+<!-- PROFILE -->
+<!-- GALLERY -->
+<div id="tabs-3_switch" class="bl_profile bl_gallery_cont">
+
+</div>
+<!-- GALLERY -->
+<script>clProfile.init();</script>
+<script>
+    $(function(){
+        <!-- begin_response_superpowers_activated -->
+        setTimeout(function(){showAlert('{j_profile_upgraded}')},1000);
+        <!-- end_response_superpowers_activated -->
+        <!-- begin_error_accessing_user -->
+        setTimeout(function(){showAlert('{error_accessing_user}')},1000);
+        <!-- end_error_accessing_user -->
+        <!-- begin_edit_field -->
+        setTimeout(function(){clProfile.editField('{edit_field_name}');},100);
+        <!-- end_edit_field -->
+        <!-- begin_show_albums_js -->
+        setTimeout(function(){$('#link-albums').click();},1000);
+        <!-- end_show_albums_js -->
+        <!-- begin_show_photo_js -->
+        setTimeout(function(){
+            $('#link-albums').click();
+            clProfile.setFnTabsEnd(function(){
+                var $item=$('#photo_item_{show_photo_js_id}');
+                if($item[0]){
+                    clPhoto.openGalleryId('{show_photo_js_id}',$item.find('.item_cont'),false,true);
+                }
+            });
+        },500);
+        <!-- end_show_photo_js -->
+
+		<!-- begin_show_video_js -->
+        setTimeout(function(){
+           // $('#link-albums').click();
+            //clProfile.setFnTabsEnd(function(){
+                var $item=$('#photo_item_v_{show_video_js_id}');
+                if($item[0]){
+                   clPhoto.openGalleryId('v_{show_video_js_id}',$item.find('.item_cont'),false,true);
+                }
+            //});
+        },200);
+        <!-- end_show_video_js -->
+    })
+
+
+    // NEW
+    // const im_ghotok = {im_ghotok};
+    /*if(im_ghotok == 1) {
+        $(".ghotokLooking, .personalInfo, #education_section, #profession_section, #relatives_section, #posted_by_section, #additional_section, #localPref, .myBio, .alert-warning, .progress-container, .reviewDiv, #profile_status_editor").remove();
+        $(".ghotokAbout > .bl").eq(1).remove();
+    }*/
+</script>
+</div>

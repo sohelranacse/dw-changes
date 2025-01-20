@@ -1,0 +1,199 @@
+{header}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.3/build/css/intlTelInput.css">
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.3/build/js/intlTelInput.min.js"></script>
+
+<style type="text/css">
+    .slogan { margin-bottom: 20px; font-size: 32px; line-height: 32px }
+    .bl_logo { padding: 15px 0}
+    .content { padding-top: 20px; }
+    .wrap_header_cont > .bl { background: linear-gradient(360deg, #29202087, transparent); }
+    .bl_form { margin-bottom:0 }
+    .bl_main_info .item p { color: #fff; font-size: 14px; margin: 0 }
+    .bl_main_info .item .pic {
+        height: unset;
+    }
+    .signUpline {
+        color: #fff;
+        font-size: 14px;
+        text-align: right;
+    }
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        z-index: 5;
+    }
+    .cont_w { width: 100% }
+
+    .error-message {
+        color: #fff;
+        padding: 10px;
+        background: #ff00007a;
+        font-size: 16px;
+        width: 50%;
+        margin: 30px auto;
+        border-radius: 3px;
+    }
+    .error-message > a {
+        float: right;
+        margin-right: 10px;
+        color: #fff;
+    }
+
+    @media screen and (min-width: 1920px) {
+        .slogan { margin-top: 40px;margin-bottom: 80px; font-size: 36px; line-height: 44px }
+        .bl_main_info .item p { font-size: 20px }
+        .bl_main_info .item { width: 350px }
+        .cont_w { min-height: 200px }
+        .bl_main_info .item .pic{ padding: 0 0 20px; }
+        .cont_w{ min-height: 180px;}
+    }
+</style>
+    <div class="bl_join_done">
+        <div class="slogan">{l_join_the_best_dating_site_in_the_world}</div>
+
+            <!-- begin_user_error_message -->
+                <style type="text/css">.slogan { margin-bottom: 10px }</style>
+                <p class="error-message">
+                    <i class="fa fa-exclamation-triangle"></i> {messagetitle}
+                    <a href="index.php"><i class="fa fa-times-circle"></i></a>
+                </p>
+            <!-- end_user_error_message -->
+        
+            <div class="bl_form bl_form_index" style="z-index: 3">
+
+
+                <!-- begin_candidate_register -->
+                <ul class="bl_social_buttons homeLogin">
+                    <li class="signUpline">{l_sign_up} <i class="fa fa-long-arrow-right" aria-hidden="true"></i></li>
+
+                    <!-- begin_candidate_register_item -->
+                    <li class="login_{candidate_register_item_type}"><a href="{candidate_register_item_url}">&nbsp;</a></li>
+                    <!-- end_candidate_register_item -->
+
+
+                    <li>
+                        <a href="{url_main}{url_page_join}?signup_as=candidate&by=email" class="manualLinkEmail">
+                            <i class="fa fa-envelope" aria-hidden="true"></i></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{url_main}{url_page_join}?signup_as=candidate&by=phone" class="manualLinkPhone">OTP</a></li>
+                    </li>
+                </ul>
+                <!-- end_candidate_register -->
+
+                <div class="divider-or">
+                    <span></span>
+                    <span></span>
+                </div>
+
+
+                <!-- begin_matchmaker_register -->
+                <ul class="bl_social_buttons homeLogin">
+                    <li class="signUpline">{l_matchmakers_sign_up} <i class="fa fa-long-arrow-right" aria-hidden="true"></i></li>
+
+                    <!-- begin_matchmaker_register_item -->
+                    <li class="login_{matchmaker_register_item_type}"><a href="{matchmaker_register_item_url}">&nbsp;</a></li>
+                    <!-- end_matchmaker_register_item -->
+
+
+                    <li>
+                        <a href="{url_main}{url_page_join}?signup_as=matchmaker&by=email" class="manualLinkEmail">
+                            <i class="fa fa-envelope" aria-hidden="true"></i></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{url_main}{url_page_join}?signup_as=matchmaker&by=phone" class="manualLinkPhone">OTP</a></li>
+                    </li>
+                </ul>
+                <!-- end_matchmaker_register -->
+
+                <script>if(!$('.select_index')[0])$jq('.bl_form_index').addClass('show');</script>
+            </div>
+
+
+
+            <!-- begin_footer_visitor_info -->
+            <!-- content -->
+            <div class="content content-home">
+                <div class="cont_w">
+                    <div class="bl_main_info">
+                        <div class="item">
+                            <div class="pic">
+                                <img src="{url_tmpl_main}images/pic_clock.png" width="60" height="60" alt="" />
+                            </div>
+                            <p>{l_signing_up_takes_two_minutes_and_is_totally_free}</p>
+                        </div>
+                        <div class="item">
+                            <div class="pic">
+                                <img src="{url_tmpl_main}images/pic_heart.png" width="60" height="46" alt="" />
+                            </div>
+                            <p style="margin-top: 15px;">{l_our_matching_algorhythm_helps_to_find_the_right_people}</p>
+                        </div>
+                        <div class="item">
+                            <div class="pic">
+                                <img src="{url_tmpl_main}images/privacy.png" width="60" height="60" alt="" />
+                            </div>
+                            <p>{l_you_can_chat_see_photos_have_fun_and_even_meet}</p>
+                        </div>
+                        <div class="item">
+                            <div class="pic">
+                                <img src="{url_tmpl_main}images/power_platform.png" width="60" height="60" alt="" />
+                            </div>
+                            <p>{l_power_platform_for_professional}</p>
+                        </div>
+                    </div>
+                    <div class="cl"></div>
+                </div>
+
+
+                <div style="color: #fff;margin-bottom: 8px;">Planning your big day? Use verified vendors from <a href="https://vendor.deshiwedding.com/" target="_blank" style="font-weight: 600;color: #ffa92a;">DeshiWedding</a></div>
+
+                <div class="h_categories">
+                    <a class="h_category" href="https://deshiwedding.com/index.php?route=product/category&path=59_64" target="_blank">
+                        <i class="fa fa-star"></i>
+                        <span>Kazi</span>
+                    </a>
+                    <a class="h_category" href="https://vendor.deshiwedding.com/index.php?route=product/category&path=62" target="_blank">
+                        <i class="fa fa-camera"></i>
+                        <span>Photo</span>
+                    </a>
+                    <a class="h_category" href="https://vendor.deshiwedding.com/index.php?route=product/category&path=63" target="_blank">
+                        <i class="fa fa-magic"></i>
+                        <span>Makeup</span>
+                    </a>
+                    <a class="h_category" href="https://vendor.deshiwedding.com/index.php?route=product/category&path=69" target="_blank">
+                        <i class="fa fa-leaf"></i>
+                        <span>Florist</span>
+                    </a>
+                    <a class="h_category" href="https://vendor.deshiwedding.com/index.php?route=product/category&path=66" target="_blank">
+                        <i class="fa fa-calendar"></i>
+                        <span>Planner</span>
+                    </a>
+                </div>
+
+
+            </div>
+            <!-- /content -->
+            <!-- end_footer_visitor_info -->
+       
+        <script>
+
+        $('.select_main','.bl_form_index').styler({
+            selectAutoWidth : false,
+            selectAppearsNativeToIOS: false,
+            selectAnimation: true
+
+        });
+        $('#frm_join_index_step_1, #frm_join_index_step_2').submit(function(){
+
+            var $frm=$(this),isError=false;
+            if(isError){
+                return false;
+            }
+            $jq('#frm_join_index_step_btn_submit').addChildrenLoader();//.prop('disabled', true)
+        })
+        </script>
+    </div>
+{footer}

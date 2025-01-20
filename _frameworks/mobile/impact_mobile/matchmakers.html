@@ -1,0 +1,74 @@
+{header}
+<style type="text/css">
+#add_group_user_link > a {
+    color: #8ccd00;
+    font-weight: bold;
+    margin: 10px 10px 0;
+    display: inline-block;
+}
+</style>
+<script id="script_replace_page">
+    urlPageHistory='matchmakers';
+    
+    urlPageHistorySetHash=true;    
+</script>
+<div class="col_center">
+    <div id="search_head" class="head filter_head">
+        <div class="info" style="width: 308px;"><div class="bl">{page_title}</div></div>
+        <div class="count" style="width: 37px;"></div>
+        <div class="cl"></div>
+    </div>
+
+    <div class="container mr-35" id="cardData"></div>
+</div>
+<script type="text/javascript">
+    var matchmakerList = {matchmakerList};
+
+    $(function(){
+
+        showMatchmaker(matchmakerList);
+
+        function showMatchmaker(response) {
+            if(response.length) {
+                var cardData = ``;
+
+
+                for(var i=0; i < response.length; i++) {
+
+                    cardData += `
+                        <div class="card">
+                        <div class="card-header">
+                            <a class="go_to_page" data-type-loader="fade_btn" data-cl-loader="loader_filter" href="{url_main}profile_view?user_id=${response[i].user_id}">
+                                <img src="${response[i].photo ? '{url_files}photo/' + response[i].user_id + '_' + response[i].photo + '_m.jpg' : '{url_files}impact_mobile_nophoto_b.png'}" 
+                                     alt="Photo" 
+                                     onerror="this.src='{url_files}impact_mobile_nophoto_b.png'">
+                            </a>
+
+                            <a class="go_to_page" data-type-loader="fade_btn" data-cl-loader="loader_filter" href="{url_main}profile_view?user_id=${response[i].user_id}" style="padding-top: 10px">${response[i].name}</a>
+                        </div>
+
+                        
+                        <div class="card-content">
+                            <p><i class="fa fa-user"></i> {l_candidates}: <strong>${response[i].total_candidate}</strong></p>
+                        </div>
+                    `;
+
+                    cardData+= `</div></div>`;
+                }
+
+
+                $("#cardData").html(cardData)
+
+            } else
+                $("#cardData").html(`
+                <div class="cont" style="margin: 60px auto 0">        
+                    <div class="bl_no_one">
+                        <div class="icon"></div>
+                        <div class="txt"><h3 style="font-size: 40px"><i class="fa fa-user"></i></h3> {l_no_one_here_yet}</div>
+                    </div>
+                </div>
+            `);
+        }
+    })
+</script>
+{footer}

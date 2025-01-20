@@ -1,0 +1,49 @@
+{header}
+<script id="script_replace_page">
+    urlPageHistory='{url_page_signup_with_otp_form}';
+
+</script>
+<div class="page_content_inner page_index txt_shadow" id="opt_sign_up">
+    <script>
+    var clIndex = new CIndex();
+    clIndex.init('.page_index');
+    </script>
+
+    <div class="head">
+        <span class="title">Phone number verification</span>
+    </div>
+    <br>
+
+    <div class="bl_frm large_field" id="OTP_DISPLAY1">
+
+        <div class="bl">
+            <!-- <label>{l_phone_number} <span class="r_required">*</span></label> -->
+
+            <h3 style="font-size: 20px;margin-bottom: 20px;text-align: center;line-height: 28px;"><i class="fa fa-user"></i> {user_name}<br><span><i class="fa fa-phone"></i> {user_phone}</span></h3>
+        </div>
+
+        <button id="otp_signup_submit" class="btn large turquoise">{l_send_OTP}</button>
+    </div>
+
+    <div class="bl_frm large_field" id="OTP_DISPLAY2" style="display: none;">
+
+        <div class="bl">
+            <label style="padding: 5px 0 15px; display: block; line-height: 24px;">
+                {l_we_have_sent} <strong id="otp_number">{user_phone}</strong>
+            </label>
+            <span class="resend_code" style="display: block;margin: -10px 10px;"></span>
+            <button type="button" id="request_otp_pin_again" class="btn turquoise" style="display: none;float: unset;font-size: 12px;height: 30px;" disabled>{l_request_pin_again}</button>
+        </div>
+
+        <div class="bl">
+            <input id="otp_pin" class="inp phone placeholder" type="number" placeholder="{l_please_enter_4_digit_one_time_pin}" autocomplete="off" readonly onclick="this.removeAttribute('readonly');" />
+        </div>
+
+        <button id="otp_signup_now" class="btn large turquoise" disabled>{l_verify}</button>
+    </div>
+
+</div>
+<style type="text/css">
+    .body_member, .bl_profile, .bl_profile .cont_wrap .profile_info_content { background: unset !important; }
+</style>
+{footer}

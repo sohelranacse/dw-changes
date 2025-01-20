@@ -1,0 +1,69 @@
+{header}
+<script id="script_replace_page">
+    urlPageHistory='{url_page_login_otp}';
+
+</script>
+<div class="page_content_inner page_index txt_shadow" id="pp_otp_login">
+    <script>
+    var clIndex = new CIndex();
+    clIndex.init('.page_index');
+    </script>
+
+    <div class="head">
+        <span class="title">{l_login_with_otp}</span>
+    </div>
+    <br>
+
+    <div class="bl_frm large_field" id="OTP_DISPLAY1">
+
+        <div class="bl">
+            <label>{l_phone_number} <span class="r_required">*</span></label>
+            <input id="join_phone_number" name="join_phone" class="inp" type="number" value="{join_phone}" placeholder="{l_placeholder_phone}" maxlength="14" autocomplete="off" readonly onclick="this.removeAttribute('readonly');" required />
+            <input type="hidden" name="phone" id="full_phone_number"/>
+            <div id="otp_phone_error" class="error" style="padding-top: 5px;color: yellow;"></div>
+        </div>
+
+        <button id="pp_otp_login_submit" class="btn large turquoise" disabled>{l_send_OTP}</button>
+    </div>
+
+    <div class="bl_frm large_field" id="OTP_DISPLAY2" style="display: none;">
+        <div class="bl" style="text-align: center;">
+            <label style="padding: 5px 0;display: block;line-height: 23px;">
+                {l_we_have_sent} <strong id="otp_number"></strong>
+            </label>
+            <span class="resend_code" style="display: inline-block;margin-bottom: 5px;"></span>
+            <button type="button" id="request_pin_again" class="btn turquoise" style="display: none;" disabled>{l_request_pin_again}</button>
+            <input type="hidden" id="otp_phone_number" value="">
+        </div>
+
+        <div class="bl">
+            <input id="otp_pin" class="inp phone placeholder" type="number" placeholder="{l_please_enter_4_digit_one_time_pin}" autocomplete="off" readonly onclick="this.removeAttribute('readonly');" />
+        </div>
+
+        <button id="pp_otp_login_now" class="btn large turquoise" disabled>{l_sign_in}</button>
+    </div>
+
+    <div class="frm_btn loginForm">
+        <div class="double" style="margin-top: 15px;">
+            <span>
+                <a href="{url_main}{url_page_login}" class="go_to_page btn large white_frame">{l_back}</a>
+            </span>
+        </div>
+
+        <!-- begin_btn_download_app -->
+        <div class="double">
+            <span>
+                <a target="_blank" title="{btn_download_app_title}" href="{btn_download_app_url}" class="btn large white_frame">
+                    <span class="txt"><span class="icon_{btn_download_app_icon}_app">&nbsp;</span>{btn_download_app_title}</span>
+                </a>
+            </span>
+        </div>
+        <!-- end_btn_download_app -->
+    </div>
+    <!-- begin_banner_footer_mobile_content -->
+    <div class="banner_content_visitor {banner_footer_mobile_content_class}">
+        {banner_footer_mobile_content}
+    </div>
+    <!-- end_banner_footer_mobile_content -->
+</div>
+{footer}

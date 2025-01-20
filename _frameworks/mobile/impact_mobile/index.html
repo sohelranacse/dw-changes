@@ -1,0 +1,155 @@
+{header}
+<script id="script_replace_page">
+    urlPageHistory='{url_page_index}';
+
+    function toggleColumn(columnClass) {
+        $(columnClass).each(function() {
+            $(this).siblings('p').slideToggle();
+        });
+    }
+</script>
+
+<div class="page_content_inner page_index txt_shadow">
+
+    <div class="bl_frm large_field m_homepage">
+        
+        <div class="login_header">
+            <span class="link">{l_have_an_account}</span>
+            <a href="{url_main}{url_page_login}" class="go_to_page btn white_frame">{l_sign_in}</a>
+        </div>
+
+        <h2 class="slogan">{l_join_the_best_dating_site_in_the_world}</h2>
+
+        <!-- begin_user_error_message -->
+            <p class="error-message">
+                <i class="fa fa-exclamation-triangle"></i> {messagetitle}
+                <a href="#" onclick='$(".error-message").remove()'><i class="fa fa-times-circle"></i></a>
+            </p>
+        <!-- end_user_error_message -->
+
+
+        <div class="sign_up_section">
+            <div class="sign_up">
+                <p>{l_sign_up_here} <i class="fa fa-long-arrow-right" aria-hidden="true"></i></p>
+                <!-- begin_candidate_register -->
+                <ul class="bl_social_buttons">
+                    <!-- begin_candidate_register_item -->
+                    <li class="login_{candidate_register_item_type}"><a onclick="clIndex.goToSocialLogin($(this),'{candidate_register_item_url}'); return false;" href="{candidate_register_item_url}"><span>&nbsp;</span></a></li>
+                    <!-- end_candidate_register_item -->
+
+                    <li><a href="{url_main}{url_page_join}?signup_as=candidate&by=email" class="go_to_page manual_signup"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+
+                    <li>
+                        <a href="{url_main}{url_page_join}?signup_as=candidate&by=phone" class="go_to_page manualLinkPhone">OTP</a></li>
+                    </li>
+                </ul>
+                <!-- end_candidate_register -->
+            </div>
+
+            <div class="sign_up sign_up2">
+                <p>{l_matchmakers_sign_up} <i class="fa fa-long-arrow-right" aria-hidden="true"></i></p>
+                <!-- begin_matchmaker_register -->
+                <ul class="bl_social_buttons">
+                    <!-- begin_matchmaker_register_item -->
+                    <li class="login_{matchmaker_register_item_type}"><a onclick="clIndex.goToSocialLogin($(this),'{matchmaker_register_item_url}'); return false;" href="{matchmaker_register_item_url}"><span>&nbsp;</span></a></li>
+                    <!-- end_matchmaker_register_item -->
+
+                    <li><a href="{url_main}{url_page_join}?signup_as=matchmaker&by=email" class="go_to_page manual_signup"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+
+                    <li>
+                        <a href="{url_main}{url_page_join}?signup_as=matchmaker&by=phone" class="go_to_page manualLinkPhone">OTP</a></li>
+                    </li>
+                </ul>
+                <!-- end_matchmaker_register -->
+            </div>
+        </div>
+
+
+        <!-- content -->
+        <div class="content">
+            <div class="item">
+                <div class="pic pic-column1" onclick="toggleColumn('.pic-column1')">
+                    <img src="{url_tmpl_mobile}images/pic_clock.png" width="40" height="40" alt="{l_signing_up_takes_two_minutes_and_is_totally_free}" />
+                </div>
+                <p>{l_signing_up_takes_two_minutes_and_is_totally_free}</p>
+            </div>
+            <div class="item">
+                <div class="pic pic-column1" onclick="toggleColumn('.pic-column1')">
+                    <img src="{url_tmpl_mobile}images/privacy.png" width="40" height="40" alt="{l_you_can_chat_see_photos_have_fun_and_even_meet}" />
+                </div>
+                <p>{l_you_can_chat_see_photos_have_fun_and_even_meet}</p>
+            </div>
+            <div class="item">
+                <div class="pic pic-column3" onclick="toggleColumn('.pic-column3')">
+                    <img src="{url_tmpl_mobile}images/pic_heart.png" width="44" height="40" alt="{l_our_matching_algorhythm_helps_to_find_the_right_people}" />
+                </div>
+                <p>{l_our_matching_algorhythm_helps_to_find_the_right_people}</p>
+            </div>
+            <div class="item">
+                <div class="pic pic-column3" onclick="toggleColumn('.pic-column3')">
+                    <img src="{url_tmpl_mobile}images/power_platform.png" width="40" height="40" alt="{l_power_platform_for_professional}" />
+                </div>
+                <p>{l_power_platform_for_professional}</p>
+            </div>
+        </div>
+        <!-- /content -->
+
+        <div style="color: #fff;margin: -20px 10px 10px;text-align: center;line-height: 24px;">Planning your big day? Use verified vendors from <a href="https://vendor.deshiwedding.com/" target="_blank" style="font-weight: 600;color: #ffa92a;">DeshiWedding</a></div>
+
+        <div class="h_categories">
+            <a class="h_category" href="https://deshiwedding.com/index.php?route=product/category&path=59_64" target="_blank">
+                <i class="fa fa-star"></i>
+                <span>Kazi</span>
+            </a>
+            <a class="h_category" href="https://vendor.deshiwedding.com/index.php?route=product/category&path=62" target="_blank">
+                <i class="fa fa-camera"></i>
+                <span>Photo</span>
+            </a>
+            <a class="h_category" href="https://vendor.deshiwedding.com/index.php?route=product/category&path=63" target="_blank">
+                <i class="fa fa-magic"></i>
+                <span>Makeup</span>
+            </a>
+            <a class="h_category" href="https://vendor.deshiwedding.com/index.php?route=product/category&path=69" target="_blank">
+                <i class="fa fa-leaf"></i>
+                <span>Florist</span>
+            </a>
+            <a class="h_category" href="https://vendor.deshiwedding.com/index.php?route=product/category&path=66" target="_blank">
+                <i class="fa fa-calendar"></i>
+                <span>Planner</span>
+            </a>
+        </div>
+
+        <!-- footer -->
+        <div class="footer">
+            <ul>
+                <li><a class="go_to_page link_info" data-cl-loader="loader_link_info" href="{url_main}{url_page_about}">{l_about_us}</a></li>
+                <li><a class="go_to_page link_info" data-cl-loader="loader_link_info" href="{url_main}pricing">{l_pricing}</a></li>
+                <li><a class="link_info" data-cl-loader="loader_link_info" href="{url_main}contact">{l_contact_us}</a></li>
+                <li><a class="go_to_page link_info" data-cl-loader="loader_link_info" href="{url_main}{url_page_faq}">{l_faq}</a></li>
+                <li><a class="go_to_page link_info" data-cl-loader="loader_link_info" href="{url_main}{url_page_privacy_policy}">{l_privacy_policy}</a></li>
+                <li><a class="go_to_page link_info" data-cl-loader="loader_link_info" href="{url_main}{url_page_terms}">{l_terms_and_conditions}</a></li>
+                <li><a class="link_info" data-cl-loader="loader_link_info" href="https://vendor.deshiwedding.com" target="_blank">{l_vendors}</a></li>
+            </ul>
+            <p>{l_footer_c}{title_orig} {year}</p>
+        </div>
+        <!-- footer end -->
+
+    </div>
+    <div class="frm_btn">        
+        <!-- begin_btn_download_app -->
+        <div class="double">
+            <span>
+                <a target="_blank" title="{btn_download_app_title}" href="{btn_download_app_url}" class="btn large white_frame">
+                    <span class="txt"><span class="icon_{btn_download_app_icon}_app">&nbsp;</span>{btn_download_app_title}</span>
+                </a>
+            </span>
+        </div>
+        <!-- end_btn_download_app -->
+    </div>
+    <!-- begin_banner_footer_mobile_content -->
+    <div class="banner_content_visitor {banner_footer_mobile_content_class}">
+        {banner_footer_mobile_content}
+    </div>
+    <!-- end_banner_footer_mobile_content -->
+</div>
+{footer}

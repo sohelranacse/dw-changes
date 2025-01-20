@@ -1,0 +1,108 @@
+{header}
+<script type="text/javascript" src="{url_tmpl_mobile}js/common.js{cache_version_param}"></script>
+<script id="script_replace_page">
+    urlPageHistory='{url_page_contact}';
+    var clCommon = new CCommon();
+</script>
+<div class="page_content_inner info_page">
+
+	<div class="head">
+        <span class="title">{l_contact_us}</span>
+    </div>
+
+	<div class="bl_term_txt">
+		
+		<div class="popup contact-page send_message pp_cont">
+			<label style="color: yellow;padding: 6px 0;display: inline-block;">{l_all_fields_required}</label>
+			<form id="contactForm" onsubmit="return false">
+				<!-- begin_contact_email -->
+				<div class="cont_pp">
+					<input type="email" id="email" name="email" placeholder="{l_placeholder_email}" onkeyup="clCommon.validateContactForm(this.id)" required>
+				</div>
+				<!-- end_contact_email -->
+
+				<!-- begin_contact_username -->
+				<div class="cont_pp">
+					<input id="name" class="contact_info" type="text" name="name" placeholder="{l_name}" onkeyup="clCommon.validateContactForm(this.id)" required/>
+				</div>			
+				<div class="cont_pp">
+					<!-- <input id="phone" class="contact_info" type="number" name="phone" placeholder="{l_phone_number}" onkeyup="clCommon.validateContactForm()" required/> -->
+					<input id="join_phone_number" name="join_phone" class="contact_info" type="number" value="{join_phone}" placeholder="{l_placeholder_phone}" maxlength="14" autocomplete="off" onkeyup="clCommon.validateContactForm(this.id)" readonly onclick="this.removeAttribute('readonly');" required />
+		            <input type="hidden" name="phone" id="full_phone_number"/>
+		            <div id="phone_error" class="fields_error" style="color: red;"></div>
+				</div>
+				<!-- end_contact_username -->
+
+	            <div class="cont_pp">
+	                <select id="topic" name="topic" onchange="clCommon.validateContactForm(this.id)" required>
+	                    <option value="">Select a Topic</option>
+	                    <option value="Pricing/Membership">Pricing/Membership</option>
+	                    <option value="Billing and Payment Inquiries">Billing and Payment Inquiries</option>
+	                    <option value="Account Management">Account Management</option>
+	                    <option value="Profile Assistance">Profile Assistance</option>
+	                    <option value="Technical Support">Technical Support</option>
+	                    <option value="I'm interested in Pilot Program">I'm interested in Pilot Program</option>
+	                    <option value="Other">Other</option>
+	                </select>
+	            </div>
+
+	            <div class="cont_pp">
+	                <textarea id="textMessage" placeholder="{l_type_message}" onkeyup="clCommon.validateContactForm(this.id)"></textarea>
+	                <button class="btn large violet" id="sendMessage" onclick="clCommon.send_contact()" disabled>{l_send}</button>
+	            </div>
+            </form>
+        </div>
+	</div>
+
+	<div class="frm_btn">
+        <a href="./index" class="go_to_page btn_term btn large lblue">{l_back}</a>
+    </div>
+</div>
+<script type="text/javascript">
+    // custom
+    var phone_number = window.intlTelInput(document.querySelector("#join_phone_number"), {
+        separateDialCode: true,
+        preferredCountries:["bd","us","gb","sa","ae"],
+        hiddenInput: "full",
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.3/build/js/utils.js"
+    })
+
+    document.getElementById('join_phone_number').onchange = function(){
+        var full_number = phone_number.getNumber(intlTelInputUtils.numberFormat.E164);
+        $("#full_phone_number").val(full_number);
+    }
+    function validatePhoneNumber(phoneNumber) {
+
+        var country_data = phone_number.getSelectedCountryData();
+        var country_code = country_data.dialCode;
+
+        // Remove all non-digit characters
+        var cleaned = phoneNumber.replace(/\D/g, '');
+
+        if(country_code == "880") {
+
+            // Check if the phone number starts with '01' and has a length of 11
+            if (cleaned.startsWith('01') && cleaned.length === 11) {
+                return true;
+            }
+
+            // Check if the phone number starts with '1' and has a length of 10
+            if (cleaned.startsWith('1') && cleaned.length === 10) {
+                return true;
+            }
+
+            // Check if the phone number starts with '+880' and has a length of 14
+            if (phoneNumber.startsWith('+880') && phoneNumber.length === 14) {
+                return true;
+            }
+        } else {
+            if (cleaned.length > 9 && cleaned.length < 13) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+</script>
+
+{footer}

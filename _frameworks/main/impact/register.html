@@ -1,0 +1,186 @@
+{header}
+
+<style type="text/css">
+    .slogan { padding: 20px 0 0; margin-bottom: 35px }
+    .bl_logo { padding: 15px 0}
+
+    .wrap_header_cont > .bl{
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+    }
+    .header, #bg_cover { height:1100px !important }
+    .r_required { font-weight: bold; font-size: 16px }
+/*    .bl { width: 333px }*/
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.3/build/css/intlTelInput.css">
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.3/build/js/intlTelInput.min.js"></script>
+
+<script type="text/javascript" src="{url_tmpl_main}js/join.js{cache_version_param}"></script>
+<script>
+var joinLangParts = {
+    incorrect_date : '{j_incorrect_date}',
+    incorrect_email : '{j_incorrect_email}',
+	incorrect_phone : '{j_phone_number_is_not_valid}',
+    incorrect_city : '{j_we_need_a_city}',
+    next : '{j_next}',
+    done : '{j_done}',
+    incorrect_password_contain : '{j_invalid_password_contain}',
+    incorrect_password_length : '{max_min_length_password}',
+    incorrect_name : '{j_invalid_username}',
+    incorrect_name_length : '{max_min_length_username}',
+    choose_a_city : '{j_choose_a_city}',
+    choose_a_state : '{j_choose_a_state}'
+};
+usersAge={users_age};
+passwordLengthMin='{password_length_min}'*1;
+passwordLengthMax='{password_length_max}'*1;
+nameLengthMin='{username_length_min}'*1;
+nameLengthMax='{username_length}'*1;
+</script>
+<style>
+    select{ opacity: 0; height: 34px; width: 50px; }
+    .header{ min-height: 175vh; }
+    .wrap_header_cont{ height: 100vh; }
+    .wrap_header_cont .bl{ padding: 100px 0 0; }
+    @media screen and (min-width: 1400px) {
+        .bl_logo { padding-top: 25px }
+        .head_top { margin-top: 40px }
+    }
+    .signupAsP {
+        color: #fff;
+        font-size: 18px;
+    }
+</style>
+        <div id="step-1" class="hide1">
+		<div class="slogan">{l_almost_there_just_a_little_more_to_go}</div>
+
+        <!-- begin_sign_up_as_matchmaker -->
+        <style type="text/css">.slogan { margin-bottom: 10px }</style>
+        <p class="signupAsP"><strong>{l_signup_as}:</strong> {l_matchmaker}</p>
+        <select id="bl_join_signup_as" name="signup_as" style="display: none;" required>
+            <option value="matchmaker">{l_matchmaker}</option>
+        </select>
+        <div id="bl_join_signup_as_error" class="error"></div>
+        <!-- end_sign_up_as_matchmaker -->
+
+        <div class="bl_form_registration bl_form_registration_step_1">
+
+            <div id="bl_frm_register" class="part">
+
+                <div class="form-divider">
+
+                    <div class="bl">
+                        <label>{l_name} <span class="r_required">*</span></label>
+                        <div class="bl_inp_pos">
+                            <input id="join_name" class="inp name placeholder" name="join_name" maxlength="100" type="text" placeholder="{l_type_name}"  autocomplete="off" readonly onclick="this.removeAttribute('readonly');" required />
+                            <div id="join_name_check" class="icon_check to_hide"></div>
+                            <div id="join_name_error" class="error to_hide"></div>
+                        </div>
+                    </div>
+
+                    <div class="bl">
+                        <label>{l_gender} <span class="r_required">*</span></label>
+                        <div class="bl_select">
+                            <select id="bl_join_done_orientation" name="orientation" class="i_am">
+                                <option value="" disabled selected>{l_select}</option>
+                                {orientation_options}
+                            </select>
+                            <div id="orientation_error" class="error to_hide">{l_orientation_is_required}</div>
+                        </div>
+                    </div>
+
+                    <div class="bl">
+                        <label>{l_date_birth} <span class="r_required">*</span></label>
+    					<form name="frm_date" action="" autocomplete="off">
+                            <div class="inp_birth dd">
+                                <select name="day" id="day" class="birthday">
+                                    <option value="" disabled selected>{l_select}</option>
+                                    {day_options}
+                                </select>
+                            </div>
+                            <div class="inp_birth mm">
+                                <select name="month" id="month" class="birthday">
+                                    <option value="" disabled selected>{l_select}</option>
+                                    {month_options}
+                                </select>
+                            </div>
+                            <div class="inp_birth yy">
+                                <select name="year" id="year" class="birthday">
+                                    <option value="" disabled selected>{l_select}</option>
+                                    {year_options}
+                                </select>
+                            </div>
+                        </form>
+                        <div id="birth_error" class="error to_hide"></div>
+                        <div class="cl"></div>
+                    </div>
+
+                    <div class="bl">
+                        <label>{l_phone_number} <span class="r_required">*</span></label>
+                        <div class="bl_inp_pos">
+                            <input id="join_phone_number" class="inp phone placeholder" name="_phone" type="number" minlength="10" maxlength="14" placeholder="{l_placeholder_phone}" autocomplete="off" readonly onclick="this.removeAttribute('readonly');" />
+                            <input type="hidden" name="join_phone" id="full_phone_number"/>
+                            <div id="phone_number_check" class="icon_check to_hide"></div>
+                            <div id="phone_error" class="error"></div>
+                        </div>
+                    </div>
+
+                    <div class="bl">
+                        <label>{l_email} <span class="r_required">*</span></label>
+                        <div class="bl_inp_pos">
+                            <input id="email" name="email" class="inp email placeholder" type="text" placeholder="{a_placeholder_email}" value="{email}" autocomplete="off" readonly onclick="this.removeAttribute('readonly');" required />
+                            <div id="email_check" class="icon_check to_hide"></div>
+                            <div id="email_error" class="error to_hide"></div>
+                        </div>
+                    </div>
+
+                    <div class="bl">
+                        <label>{l_password} <span class="r_required">*</span></label>
+                        <div class="bl_inp_pos">
+                            <input id="password" class="inp psw placeholder" name="join_password" type="password" placeholder="{l_type_password}" readonly onclick="this.removeAttribute('readonly');" required />
+                            <div id="password_check" class="icon_check to_hide"></div>
+                            <label>
+                                <input type="checkbox" id="show_password" /> <span style="vertical-align: middle;">Show Password</span>
+                            </label>
+                            <div id="password_requirements" class="password_requirements">{l_format_password}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <span class="sign custom_checkbox">
+                    <input id="agree" name="privacy_policy" value="1" type="checkbox"/>
+                    <label for="agree"><span></span>{l_i_agree_to_the}</label>
+                    <a href="" onclick="infoOpen('terms'); return false;">{l_terms}</a>
+                    <label for="agree">{l_and}</label>
+                    <a href="" onclick="infoOpen('priv'); return false;">{l_privacy_policy}</a>
+                    <span class="cl"></span>
+                </span>
+
+                <button id="frm_register_submit" class="btn pink">{l_submit}</button>
+
+                <span id="agree_error" class="error to_hide">{l_you_need_to_agree_to_the_terms} and complete all required fields.</span>
+
+            </div>
+            <div class="cl"></div>
+        </div>
+        </div>
+        <div id="step-2" class="hide step-2">
+            <div class="slogan">{l_the_last_step_donrsquot_stop_now}</div>
+            <div class="bl_form_registration">
+                <div class="part center">
+                    <div class="bl">
+                        <label>{l_name}</label>
+                        <div class="bl_inp_pos">
+                            <input id="name" class="inp username placeholder" name="join_handle" maxlength="{username_length}" type="text" placeholder="{a_this_will_be_public}" value="{join_handle}"/>
+                            <div id="name_check" class="icon_check to_hide"></div>
+                            <div id="name_error" class="error to_hide">&nbsp;</div>
+                        </div>
+                    </div>
+                    <button id="frm_register_submit_2" class="btn pink" disabled>{l_done}</button>
+                </div>
+            <div class="cl"></div>
+            </div>
+        </div>
+{footer}
