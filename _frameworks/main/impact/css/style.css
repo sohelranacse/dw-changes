@@ -1519,7 +1519,8 @@ ol#selectable li.selected{ background: #40c7db; color: #fff; }
 .pp_info_start .cont .pic_chat .info strong{ font-weight: bold; display: block; }
 .pp_info_start .cont .pic_chat .info a.name{ color: #000; }
 
-.pp_info_start .cont .img_chat{ width: 215px; /*height: 88px;*/ padding: 0 0 6px; vertical-align: middle; display: table-cell; text-align: center; }
+.pp_info_start .cont .img_chat{ width: 215px; /*height: 88px;*/ padding: 0 0 6px; vertical-align: middle; display: table-cell; }
+.pp_info_start .cont .msg { text-align: left; }
 .pp_info_start .cont .img_chat .icon{ margin: 33px 0 19px; }
 .pp_info_start .cont .img_chat .msg{ padding: 0 0 36px; line-height: 20px; }
 .pp_info_start .cont .btn{ width: 100%; }

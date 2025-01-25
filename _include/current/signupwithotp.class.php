@@ -41,6 +41,12 @@ class SignUpWithOTP extends CHtmlBlock
                     // insert user for mobile
                     if(Common::isMobile()) {
                         $uid = User::add();
+                        
+                        // upload photo
+                        if(get_session('j_temp_photo')) {
+                            uploadphoto($uid, '', '', 1, get_session('j_temp_photo'));
+                            @unlink(get_session('j_temp_photo'));
+                        }
                     }
 
                     return $this->message = json_encode([
@@ -89,12 +95,9 @@ class SignUpWithOTP extends CHtmlBlock
                 // SEND MESSAGE
                 sendsms($phone_number, $m_messege);
 
-                $data = [
-                    'otp_pin'       => $otp_pin,
-                    'otp_sent_time' => date("Y-m-d H:i:s"),
-                    'ip_address'    => $_SERVER['REMOTE_ADDR']
-                ];
-                DB::update('user_temp', $data, '`id` = ' . to_sql($id));
+                $ip_address = $_SERVER['REMOTE_ADDR'];
+
+                DB::execute("UPDATE user_temp SET otp_pin=$otp_pin, otp_sent_time=NOW(), ip_address='$ip_address' WHERE id = $id");
 
                 return $this->message = json_encode([
                     'status'    => true,

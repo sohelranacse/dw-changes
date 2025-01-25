@@ -145,7 +145,7 @@ $(function () {
                 window.location.href = url_main+jsonResponse.redirect_url;
             } else {
                 alertCustom(jsonResponse.msg,true,'');
-                $("#pp_otp_login_now").html(l('login')).prop('disabled', false);
+                $("#pp_otp_login_now").html(l('sign_in')).prop('disabled', false);
                 $('#pp_otp_login #otp_pin').prop('disabled', false);
             }
         })

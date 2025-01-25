@@ -50,3 +50,12 @@ SET time_zone = '+06:00';
 
 -> Join with photo only
 -> Forced profile picture upload, Minimum number of photos for the user to be able to use the site: 1
+
+129. Required profile picture 
+	- due mobile version
+	- add candidate
+	- blur
+126. define time_zone
+
+
+user_id = 134

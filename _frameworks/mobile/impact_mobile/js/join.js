@@ -553,6 +553,40 @@ var CJoin = function() {
             $('#birth_error').empty();
         }
     }
+
+    function is_photo_valid() {
+        const fileInput = $('.uploadPhoto')[0];
+        const errorDiv = $('#photo_file_error');
+        const fileNameDisplay = $('#fileNameDisplay');
+        const file = fileInput.files[0];
+
+        errorDiv.text(''); // Clear previous errors
+
+        // Check if file is selected
+        if (!file) {
+          errorDiv.text('Please choose a file.');
+          return false;
+        }
+
+        const fileName = file.name;
+        const fileSize = file.size;
+        const fileExtension = fileName.split('.').pop().toLowerCase();
+
+        // Validate file type
+        if (!['jpg', 'png'].includes(fileExtension)) {
+          errorDiv.text('Invalid file type. Only .jpg and .png are allowed.');
+          return false;
+        }
+
+        // Validate file size (5MB = 5 * 1024 * 1024 bytes)
+        if (fileSize > 5 * 1024 * 1024) {
+          errorDiv.text('File size exceeds the maximum limit of 5MB.');
+          return false;
+        }
+
+        // File is valid
+        return true;
+    }
     function checkFormDisable(callback_error) {
         let bl_join_signup_as = $("#bl_join_signup_as").val();
         let join_phone_number = $("#join_phone_number").val();
@@ -569,6 +603,9 @@ var CJoin = function() {
         let agree = $("#agree").prop('checked');
 
         var isValid = validatePhoneNumber(join_phone_number);
+
+        const fileInput = $('.uploadPhoto')[0];
+        const file = fileInput.files[0];
 
         var poster = 0;
         if(document.getElementById("poster_name")) {
@@ -590,7 +627,8 @@ var CJoin = function() {
             bl_join_done_orientation &&
             month &&
             day &&
-            year
+            year &&
+            is_photo_valid()
         ) {
             // alert('Validated');
         } else {
@@ -660,6 +698,13 @@ var CJoin = function() {
                     err_message += listIcon+"Birthdate field is required!<br>";
                 }
             }
+            
+            if (!file) {
+                $('#photo_file_error').html(l('the_field_is_required'));
+                err_message += listIcon+"Please choose a photo.<br>";
+            } else if(!is_photo_valid()) {
+                err_message += listIcon+"Photo is not valid!<br>";
+            }
 
             
             callback_error(true, err_message);
@@ -681,6 +726,10 @@ var CJoin = function() {
 
         if(haveError)
             return;
+
+
+
+        let formData = new FormData();
 
 
         var $focus,
@@ -733,6 +782,7 @@ var CJoin = function() {
                 $focus=[];
             }else{
                 $this.dataFrm['recaptcha']=responseRecaptcha;
+                formData.append('recaptcha', responseRecaptcha);
             }
         } else {
             isEmpty=$.trim($this.$captcha.val())=='';
@@ -761,6 +811,7 @@ var CJoin = function() {
 
         $('input.inp, input.ajax, select',$this.$formBox).each(function(){
             $this.dataFrm[$(this).attr('name')]=$(this).val();
+            formData.append($(this).attr('name'), $(this).val());
         })
 
         $this.isAjax=true;
@@ -768,7 +819,65 @@ var CJoin = function() {
         var $fields=$('input.inp, select',$this.$formBox).prop('disabled',true);
         $this.dataFrm['geo_position']=geoPoint;
 
-        $.post(url_page, $this.dataFrm,
+        // Append the file input to FormData
+        const fileInput = $('.uploadPhoto')[0]; // Update with your file input selector
+        if (fileInput.files.length > 0) {
+            formData.append('photo_file', fileInput.files[0]); // Add the selected file to FormData
+        }
+
+        $.ajax({
+            url: url_page, // Replace with your server endpoint
+            type: 'POST',
+            data: formData,
+            processData: false, // Prevent jQuery from processing FormData
+            contentType: false, // Allow the browser to set the Content-Type header
+            success: function (data) {
+                $this.isAjax=false;
+
+                var data=getDataAjax(data),fnError=function(){
+                    serverError();
+                    $fields.prop('disabled',false);
+                    $this.$btnSubmit.removeLoader().prop('disabled',false);
+                };
+                if (data===false){
+                    fnError();
+                    return;
+                }
+                var res=$(data).filter('.redirect');
+                if(res[0]){
+                    uploadHomePage(res.text(),fnError);
+                    return;
+                }
+                $this.$btnSubmit.removeLoader();
+                res=$(data).filter('.wait_approval');
+                if(res[0]){
+                    showConfirm(l('no_confirmation_account'), function(){
+                        goToPage($('.pp_btn_ok_bl:visible').data('url',urlPagesSite.login));
+                    }, false, l('ok'), '', true,true);
+                }else{
+                    $this.$btnSubmit.prop('disabled',false);
+                    $fields.prop('disabled',false);
+
+                    if(isRecaptcha){
+                        grecaptcha.reset(recaptchaWd);
+                    }else{
+                        $('#img_join_captcha').click();
+                        $this.$captcha.val('');
+                    }
+                    var dataBlocks = {'.mail' : $this.$email,
+                                      '.password' : $this.$pass,
+                                      '.name' : $this.$name,
+                                      '.birthday' : $this.$day,
+                                      '.captcha' : $this.$captcha,
+                                      '.recaptcha' : $('#recaptcha_box'),
+                    };
+                    $this.showErrorFromData(data, dataBlocks);
+                    showAlert(data,true,'fa-info-circle');
+                }
+            }
+        });
+
+        /*$.post(url_page, $this.dataFrm,
             function(data){
                 $this.isAjax=false;
 
@@ -812,7 +921,8 @@ var CJoin = function() {
                     $this.showErrorFromData(data, dataBlocks);
                     showAlert(data,true,'fa-info-circle');
                 }
-        })
+            }
+        )*/
         return false;
     }
 
@@ -881,6 +991,41 @@ var CJoin = function() {
                 passwordField.attr('type', 'text');
             } else {
                 passwordField.attr('type', 'password');
+            }
+        });
+
+        $('.uploadPhoto').on('change', function () {
+            const file = this.files[0];
+            const errorDiv = $('#photo_file_error');
+            const fileNameDisplay = $('#fileNameDisplay');
+
+            errorDiv.text(''); // Clear any previous errors
+
+            if (file) {
+                const fileName = file.name;
+                const fileSize = file.size;
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+
+                // Display file name
+                fileNameDisplay.text(fileName);
+
+                // Validate file type
+                if (!['jpg', 'png'].includes(fileExtension)) {
+                    errorDiv.text('Invalid file type. Only .jpg and .png are allowed.');
+                    showAlert('Invalid file type. Only .jpg and .png are allowed.',true,'fa-info-circle');
+                    this.value = ''; // Clear the input
+                    fileNameDisplay.text('No file chosen');
+                    return;
+                }
+
+                // Validate file size (5MB = 5 * 1024 * 1024 bytes)
+                if (fileSize > 5 * 1024 * 1024) {
+                    errorDiv.text('File size exceeds the maximum limit of 5MB.');
+                    showAlert('File size exceeds the maximum limit of 5MB.',true,'fa-info-circle');
+                    this.value = ''; // Clear the input
+                    fileNameDisplay.text('No file chosen');
+                    return;
+                }
             }
         });
     })

@@ -344,7 +344,7 @@
     <form id="frm_users_add" method="POST" action="#" name="add_user" autocomplete="off">  
         <div class="candidate_profile">                
             <div class="bl">
-                <label>Upload Photo <small class="small_max_color">({l_photo_upload_max_size})</small></label>
+                <label>{l_upload_photo} <span class="r_required">*</span> <small class="small_max_color">({l_photo_upload_max_size})</small></label>
                 <div id="dpz-upload-single-icon" data-name="photo_file" class="dropzone dropzone-area dpz-upload-single-icon">
                     <input form="photo_insert" id="dpz-file-upload-file" class="image-data-url" type="hidden" name="photo_file">
                 </div> 
@@ -697,15 +697,15 @@
             var msg = ``;
             let listIcon = "<i class='fa fa-circle' style='color: #555;font-size: 12px'></i> ";
 
-            /*if(photo_file == undefined)
-                msg += "{l_please_enter_candidate_photo}<br>";
+            if(photo_file == undefined)
+                msg += listIcon+"{l_please_enter_candidate_photo}<br>";
             else {
                 if(photo_file.size > upload_max_filesize)
-                    msg += `Profile photo cannot be larger than ${Math.round(upload_max_filesize/1024/1024)}MB.<br>`;
-            }*/
+                    msg += listIcon+`Profile photo cannot be larger than ${Math.round(upload_max_filesize/1024/1024)}MB.<br>`;
+            }
 
-            if(photo_file !== undefined && photo_file.size > upload_max_filesize)
-                msg += listIcon+`Profile photo cannot be larger than ${Math.round(upload_max_filesize/1024/1024)}MB.<br>`;
+            // if(photo_file !== undefined && photo_file.size > upload_max_filesize)
+                // msg += listIcon+`Profile photo cannot be larger than ${Math.round(upload_max_filesize/1024/1024)}MB.<br>`;
 
             if ($('#have_cv_yes').val() == 1) {
                 var submitButton = $("#UploadSubmit");

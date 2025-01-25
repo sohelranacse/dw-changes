@@ -103,7 +103,7 @@
 
         <div class="bl">
             <label>{l_phone_number} <span class="r_required">*</span></label>
-            <input id="join_phone_number" class="inp" type="number" value="{join_phone}" placeholder="{l_placeholder_phone}" maxlength="14" autocomplete="off" onkeyup="clJoin.checkPhoneNumber(this.value)" readonly onclick="this.removeAttribute('readonly');" required />
+            <input id="join_phone_number" type="number" value="{join_phone}" placeholder="{l_placeholder_phone}" maxlength="14" autocomplete="off" onkeyup="clJoin.checkPhoneNumber(this.value)" readonly onclick="this.removeAttribute('readonly');" required />
             <input type="hidden" class="inp" name="join_phone" id="full_phone_number"/>
             <div id="phone_error" class="error"></div>
         </div>
@@ -168,9 +168,15 @@
                     </select>
                     </div>
                 </div>
-                <div id="birth_error" class="error" style="padding-bottom: 10px;"></div>
+                <div id="birth_error" class="error"></div>
             </div>
         </form>
+
+        <div class="bl">
+            <label>{l_upload_photo} <span class="r_required">*</span> <small class="r_required">({l_photo_upload_max_size}) (.jpg, .png)</small></label>
+            <input type="file" name="photo_file" id="photo_file" accept=".jpg, .png" class="uploadPhoto">
+            <div id="photo_file_error" class="error" style="padding-bottom: 10px;"></div>
+        </div>
     </div>
     <input type="hidden" class="inp" name="by_phone" value="1">
 
@@ -192,7 +198,7 @@
     <!-- end_default_captcha -->
     <!-- begin_re_captcha -->
     <div class="bl">
-        <label>{l_enter_code} <span class="r_required">*</span></label>
+        <!-- <label>{l_enter_code} <span class="r_required">*</span></label> -->
         <div id="recaptcha_bl" class="recaptcha_bl">
             <div id="recaptcha" class="recaptcha"></div>
         </div>

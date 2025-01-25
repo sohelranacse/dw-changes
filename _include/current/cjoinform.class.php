@@ -20,6 +20,7 @@ class CJoinForm extends CHtmlBlock {
         global $l;
         global $gc;
         global $g_user;
+        // dd($_POST, $_FILES);
 
         $this->ajax = get_param('ajax');
 
@@ -33,6 +34,8 @@ class CJoinForm extends CHtmlBlock {
         
         set_session("j_by_phone", '');
         set_session("j_by_phone_varified", '');
+
+        set_session("j_temp_photo", '');
 
         if($p !== 'join_facebook.php') {
             set_session('social_type', '');
@@ -234,6 +237,8 @@ class CJoinForm extends CHtmlBlock {
                 }
 
                 if (Common::isMobile() || ($this->ajax && !$isCustomRegister)) {
+
+                    // OTP Mackanism
                     if(get_session("j_by_phone") == 1) {
 
                         // insert/update -> user_temp_data
@@ -269,6 +274,16 @@ class CJoinForm extends CHtmlBlock {
                             DB::insert('user_temp', $temp_data);
                         }
 
+                        // upload photo
+                        $fileType = strtolower(pathinfo($_FILES["photo_file"]["name"], PATHINFO_EXTENSION));
+                        $fileTmpPath = $_FILES['photo_file']['tmp_name'];
+                        $fileName = md5(time()).'.'.$fileType;;
+                        $uploadDir = $g['path']['dir_files'].'temp/';
+                        $destPath = $uploadDir . $fileName;
+                        if(move_uploaded_file($fileTmpPath, $destPath)) {
+                            set_session('j_temp_photo', $destPath);
+                        }
+
                         $this->setResponseData('redirect', "signup_with_otp_form");
                     } else {
                         $uid = User::add();
@@ -277,6 +292,10 @@ class CJoinForm extends CHtmlBlock {
                             $this->setResponseData('mail', l('exists_email'));
                         } else {
                             $g_user['user_id'] = $uid;
+
+                            // upload photo
+                            uploadphoto($g_user['user_id'], '', 'upload', 1, '../', false, 'photo_file');
+
                             if (get_session('social_photo', false) != false) {
                                 // uploadphoto($g_user['user_id'], '', '', (Common::isOptionActive('photo_approval') ? 0 : 1), '', get_session('social_photo')); // comment by sohel
                                 set_session('social_photo', false);
