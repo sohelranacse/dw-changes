@@ -1146,3 +1146,48 @@ if(!function_exists('generateSecurePassword')) {
 	    return implode('', $password);
 	}
 }
+if(!function_exists('blurImage')) {
+	function blurImage($filePath, $mime, $outputPath) {
+	    // Create an image resource from the file
+	    if ($mime === 'image/jpeg') {
+	        $image = imagecreatefromjpeg($filePath);
+	    } elseif ($mime === 'image/png') {
+	        $image = imagecreatefrompng($filePath);
+	    } else {
+	        die('Unsupported image type.');
+	    }
+
+	    // Get original dimensions
+	    $width = imagesx($image);
+	    $height = imagesy($image);
+
+	    // Shrink dimensions to a very small size (e.g., 5% of the original size)
+	    $smallWidth = max(1, round($width * 0.05));  // Ensure it's an integer and at least 1 pixel
+	    $smallHeight = max(1, round($height * 0.05)); // Ensure it's an integer and at least 1 pixel
+
+	    // Create a temporary image for resizing
+	    $tempImage = imagecreatetruecolor($smallWidth, $smallHeight);
+
+	    // Shrink the image
+	    imagecopyresampled($tempImage, $image, 0, 0, 0, 0, $smallWidth, $smallHeight, $width, $height);
+
+	    // Enlarge the shrunk image back to original dimensions
+	    imagecopyresampled($image, $tempImage, 0, 0, 0, 0, $width, $height, $smallWidth, $smallHeight);
+
+	    // Free the temporary image memory
+	    imagedestroy($tempImage);
+
+	    // Save the blurred image to the output path
+	    if ($mime === 'image/jpeg') {
+	        imagejpeg($image, $outputPath, 100); // Save with maximum quality
+	    } elseif ($mime === 'image/png') {
+	        imagepng($image, $outputPath);
+	    }
+
+	    // Free the main image memory
+	    imagedestroy($image);
+
+	    return $outputPath;
+	}
+
+}

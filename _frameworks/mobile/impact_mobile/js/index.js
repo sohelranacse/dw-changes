@@ -264,24 +264,26 @@ var CIndex = function() {
         })
         function showTimer() {
             // Timer setup
-            var timerDuration = 300; // 60 seconds
+            var timerDuration = 300; // 5 minutes
             var $resendCode = $('.resend_code');
 
             // Function to start and update the timer
             function startTimer(duration) {
                 var remainingTime = duration;
 
-                $resendCode.text('Resend code in ' + remainingTime + 's later');
-
                 var timerInterval = setInterval(function () {
-                    remainingTime--;
+                    var minutes = Math.floor(remainingTime / 60); // Get minutes
+                    var seconds = remainingTime % 60; // Get seconds
 
-                    if (remainingTime > 0) {
-                        $resendCode.text('Resend code in ' + remainingTime + 's later');
-                    } else {
+                    // Update the text with minutes and seconds
+                    $resendCode.text('Resend code in ' + minutes + ' minutes ' + seconds + ' seconds later');
+
+                    remainingTime--; // Decrease the remaining time
+
+                    if (remainingTime < 0) {
                         clearInterval(timerInterval);
                         $resendCode.text(''); // Clear timer text
-                        $("#request_pin_again")
+                        $("#request_otp_pin_again, #request_pin_again")
                             .html(l('request_pin_again'))
                             .prop("disabled", false).show(); // Re-enable the button
                     }
@@ -291,6 +293,7 @@ var CIndex = function() {
             // Start the timer
             startTimer(timerDuration);
         }
+
 
 
         // sign up

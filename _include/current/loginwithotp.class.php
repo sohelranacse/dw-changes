@@ -63,7 +63,7 @@ class LoginWithOTP extends CHtmlBlock
 
                             // time
                             $otp_blocked_datetime = new DateTime($otp_blocked_time);
-                            $blocked_remaining_time = $otp_blocked_datetime->modify('+60 minutes')->format('h:i:s A');
+                            $blocked_remaining_time = $otp_blocked_datetime->modify('+60 minutes')->setTimezone(new DateTimeZone('Asia/Dhaka'))->format('h:i:s A');
                             // time end
 
                             $otp_msg = 'You are temporarily blocked. Please try again after ' . $blocked_remaining_time;
@@ -124,7 +124,7 @@ class LoginWithOTP extends CHtmlBlock
 
                 // time
                 $otp_blocked_datetime = new DateTime($otp_blocked_time);
-                $blocked_remaining_time = $otp_blocked_datetime->modify('+60 minutes')->format('h:i:s A');
+                $blocked_remaining_time = $otp_blocked_datetime->modify('+60 minutes')->setTimezone(new DateTimeZone('Asia/Dhaka'))->format('h:i:s A');
                 // time end
 
                 return $this->message = json_encode([

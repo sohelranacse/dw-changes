@@ -2199,6 +2199,49 @@ var CProfile = function(guid, sending_messages_per_day) {
 
 
 
+    this.hideMyProfilePicture = function(hide) {
+        $jq('.pic').addLoader();
+
+        var e_user_id = $this.uid;
+        
+        $.ajax({
+            url: '../profile_ajax.php',
+            type: 'POST',
+            data: {
+                "cmd": "hide_my_profile",
+                e_user_id: e_user_id,
+                hide
+            },
+ 
+            success:function(data){
+                try {
+
+                    var result = JSON.parse(data);
+                    if(result.status == true) {
+                        window.location.href = '';
+                    } else {
+                        $jq('.pic').removeLoader();
+                        showAlert("", l("something_wrong_contact"))
+                    }
+                    
+                    console.log(result);
+                } catch (e) {
+                    showAlert(l('something_wrong_contact'),function() {
+                        locationReload();
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                showAlert(error,function() {
+                    locationReload();
+                });
+            }
+ 
+        });
+    }
+
+
+
     // GOLBAL
     return this;
 }

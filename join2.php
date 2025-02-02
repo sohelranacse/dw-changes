@@ -260,7 +260,7 @@ class CJoin2 extends UserFields//CHtmlBlock
         }
 
         $mail = get_session('j_mail');
-        $sql = 'SELECT * FROM user_temp WHERE mail = ' . to_sql($mail);
+        $sql = 'SELECT * FROM user_temp WHERE mail = ' . to_sql($mail) . ' ORDER BY added_on DESC';
         $userInfo=DB::row($sql);
 
         $temp_data = [

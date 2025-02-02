@@ -44,6 +44,88 @@ class ProfileAjax extends Controller {
 
 			switch ($cmd) {
 
+				case 'hide_my_profile':
+					$e_user_id = $this->input->post('e_user_id');
+				    if($e_user_id)
+				        $g_user = User::getInfoFull($e_user_id);
+				    else
+				    	$g_user = User::getInfoFull($g_user['user_id']);
+				    isset($g_user['user_id']) ? _isAuthID($g_user['user_id']) : unAuthenticate();
+
+				    $user_id = $g_user['user_id'];
+				    $hide = $this->input->post('hide');
+
+				    $bluredPhoto = DB::row("SELECT `photo_id` FROM `photo` WHERE `is_blured` = 1 AND `user_id` = $user_id");
+
+				    if(isset($bluredPhoto)) {
+			    		deletephoto($user_id, $bluredPhoto['photo_id']);
+			    	}
+
+				    if($hide == 1) {
+				    	$defaultPhoto = DB::row("SELECT `photo_id`, `default` FROM `photo` WHERE `default` = 'Y' AND `user_id` = $user_id");
+
+				    	if(isset($defaultPhoto)) {
+
+					        $defaultPhotoId = $defaultPhoto['photo_id'];
+					    	$fileDestPath = $g['path']['dir_files'].'photo/';
+
+					    	$photoSrc = $fileDestPath.$user_id.'_'.$defaultPhotoId.'_src.jpg';
+					    	$newFileName = $defaultPhotoId.'.jpg';
+
+					    	// Get image details
+						    $imageInfo = getimagesize($photoSrc);
+						    if (!$imageInfo) {
+						        die('Invalid image file.');
+						    }
+
+						    // Get MIME type
+						    $mime = $imageInfo['mime'];
+
+
+					        // Save blurred image
+					        $fileDestPathUpload = $g['path']['dir_files'].'temp/';
+					        $blurredFilePath = $fileDestPathUpload . 'blurred_' . $newFileName;
+
+						    // Apply blur effect
+					        blurImage($photoSrc, $mime, $blurredFilePath);
+
+					        $new_photo_id = uploadphoto($user_id, '', '', 1, $blurredFilePath);
+					        @unlink($blurredFilePath);
+
+					        // SHIFT ALL PUBLIC PHOTOS TO PRIVATE
+					        DB::execute("
+					    		UPDATE `photo` SET `default` = 'N', `private` = 'Y', `is_blured` = 0, `prev_default` = 0
+					    		WHERE `photo_id` != $new_photo_id AND `user_id` = $user_id
+					    	");
+
+					        // SET BLURED PHOTO AS PROFILE PICTURE
+					        DB::execute("
+					    		UPDATE `photo` SET `default` = 'Y', `private` = 'N', `is_blured` = 1
+					    		WHERE `photo_id` = $new_photo_id AND `user_id` = $user_id
+					    	");
+
+
+					        // SET CURRENT PROFILE PIC AS FLAG PREV_DEFAULT
+					        DB::execute("
+					    		UPDATE `photo` SET `default` = 'N', `private` = 'Y', `prev_default` = 1
+					    		WHERE `photo_id` = $defaultPhotoId AND `user_id` = $user_id
+					    	");
+
+					        echo json_encode(['status' => true, 'data' => 'Hide Successfully']);
+					    } else {
+					    	echo json_encode(['status' => false, 'data' => 'failed']);
+					    }
+					} else {
+
+				        DB::execute("
+				    		UPDATE `photo` SET `default` = 'Y', `private` = 'N'
+				    		WHERE `user_id` = $user_id AND `prev_default` = 1
+				    	");
+
+				        echo json_encode(['status' => true, 'data' => 'Show Successfully']);
+					}
+					break;
+
 				case 'profile_info':
 					$e_user_id = $this->input->post('e_user_id');
 				    if($e_user_id)

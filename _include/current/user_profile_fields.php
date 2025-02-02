@@ -18,6 +18,14 @@
 		if(!$row_user['pdfAiData'])
 			$html->parse('review_biodataAlert', false);
 
+		$allPhoto = DB::all("SELECT `photo_id` FROM `photo` WHERE `user_id` = ".to_sql($row['user_id']));
+		$bluredPhoto = DB::row("SELECT `photo_id` FROM `photo` WHERE `default` = 'Y' AND `is_blured` = 1 AND `user_id` = ".to_sql($row['user_id']));
+		if(isset($bluredPhoto)) {
+			$html->parse('no_blured_image', false);
+		} elseif(sizeof($allPhoto)) {
+			$html->parse('blured_image', false);
+		}
+
 		$visitor = 0;
 	} else
 		$visitor = 1;
@@ -37,7 +45,7 @@
 	}
 	// WHEN MATCHMAKER VISIT HIM CANDIDATE - REVIEW BIODATA END
 
-	
+		
 	############ ADDRESS ##############
     $address_info = DB::row('
         SELECT a.current_street, a.permanent_street,

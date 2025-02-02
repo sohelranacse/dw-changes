@@ -1032,6 +1032,11 @@ static function profileComplite() {
     static function getPhotoFile($photo, $size, $gender, $dbIndex = DB_MAX_INDEX, $cityUserVisitor = false, $groupId = 0)
     {
         global $g_user;
+        $allow = 0;
+        if($photo) {
+            if($photo['user_id'] == EUsers_List::$c_user_id || (isset($g_user['c_user_id']) && $photo['user_id'] == $g_user['c_user_id']))
+                $allow = 1;
+        }
 
         $templatePrefix = '';
         if(Common::isOptionActive('private_photo_by_template', 'template_options')) {
@@ -1054,7 +1059,7 @@ static function profileComplite() {
             $photoPath = "{$templatePrefix}private_photo{$templatePrefixGroup}_{$size}.{$ext}";
             $noVisPrivatePhoto = true;
             // photo owner and friend can see photo
-            if ($photo['user_id'] == $g_user['user_id'] || self::isFriend($g_user['user_id'], $photo['user_id'], $dbIndex)) {
+            if ($photo['user_id'] == $g_user['user_id'] || self::isFriend($g_user['user_id'], $photo['user_id'], $dbIndex) || $allow == 1) {
                 $photoPath = self::photoFileCheck($photo, $size, $gender, true, false, '', $groupId);
                 $noVisPrivatePhoto = false;
             }

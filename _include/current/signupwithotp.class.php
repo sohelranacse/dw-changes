@@ -71,7 +71,7 @@ class SignUpWithOTP extends CHtmlBlock
         $m_messege = "DeshiWedding.com: Your One-Time PIN is {$otp_pin}. It will expire in 15 minutes.";
 
 
-        $sql = 'SELECT * FROM user_temp WHERE phone_number = ' . to_sql($phone_number);
+        $sql = 'SELECT * FROM user_temp WHERE phone_number = ' . to_sql($phone_number) . ' ORDER BY added_on DESC';
         $userInfo=DB::row($sql);
 
         if(isset($userInfo)) { // update
@@ -83,7 +83,7 @@ class SignUpWithOTP extends CHtmlBlock
             $time_difference = $current_datetime->diff($otp_resend_datetime);
 
             if ($time_difference->y == 0 && $time_difference->m == 0 && $time_difference->d == 0 && $time_difference->h == 0 && $time_difference->i < 5) {
-                $remaining_time = $otp_resend_datetime->modify('+5 minutes')->format('h:i:s A');
+                $remaining_time = $otp_resend_datetime->modify('+5 minutes')->setTimezone(new DateTimeZone('Asia/Dhaka'))->format('h:i:s A');
                 return $this->message = json_encode([
                     'status'    => false,
                     'msg'       => 'You can send OTP after ' . $remaining_time

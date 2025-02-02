@@ -228,6 +228,28 @@
             <img src="{url_tmpl_mobile}images/nid.png" width="30" height="30" alt="{l_nid_verified} icon" title="{l_nid_verified}" />
             <!-- end_nid_verified -->
         </div>
+
+        <div style="margin: 10px 0;">
+            <!-- begin_blured_image -->
+            <div class="switch-container">
+                <input type="checkbox" id="hidePicture" value="1" onclick="clProfile.hideMyProfilePicture(this.value)">
+                <label for="hidePicture" class="switch-label">
+                    <span class="switch-slider"></span>
+                </label>
+                <strong>Hide Profile Picture</strong>
+            </div>
+            <!-- end_blured_image -->
+
+            <!-- begin_no_blured_image -->
+            <div class="switch-container">
+                <input type="checkbox" id="hidePicture" value="0" checked onclick="clProfile.hideMyProfilePicture(this.value)">
+                <label for="hidePicture" class="switch-label">
+                    <span class="switch-slider"></span>
+                </label>
+                <strong>Show Profile Picture</strong>
+            </div>
+            <!-- end_no_blured_image -->
+        </div>
         
         <!-- begin_profile_status_visitor -->
         <div class="bl">
@@ -693,7 +715,7 @@
         <div id="albums_switch" class="profile_info_content profile_info_content_photo">
         <!-- begin_photo_public_block -->
         <div id="albums-public_to_scroll" class="list_photos_public list_photos">
-
+            <!-- begin_photo_public_add -->
             <div id="photo_add_public" class="item add_photo">
                 <div class="add_file_icon" onclick="return clPhoto.checkUploadLimit();">
                     <form  onsubmit="clPhoto.submitUpload($(this)); return false;" data-type="public" class="form_add_photo" method="post" enctype="multipart/form-data" action="{url_main}profile_photo.php?type=public">
@@ -703,7 +725,7 @@
                     </form>
                 </div>
             </div>
-
+            <!-- end_photo_public_add -->
             <!-- begin_photo_public -->
             <div id="photo_item_{photo_public_id}" class="item">
                 <div class="item_cont loader" onclick="clPhoto.openGalleryId('{photo_public_id}', $(this), event);">
@@ -714,18 +736,59 @@
                 <!-- begin_photo_public_not_checked -->
                 <div class="not_checked_photo"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
                 <!-- end_photo_public_not_checked -->
-
+                <!-- begin_photo_public_action -->
                 <div class="icons_photo">
                     <span class="icon_background" onclick="clPhoto.confirmPhotoDelete('{photo_public_id}');"><span class="icon cancel"></span></span>
-                    <!-- <span class="icon_background" onclick="clPhoto.photoAccess('{photo_public_id}');"><span class="icon lock icon_status"></span></span> -->
+                    <span class="icon_background" onclick="clPhoto.photoAccess('{photo_public_id}');"><span class="icon lock icon_status"></span></span>
                     <span class="icon_background" onclick="clPhoto.photoRotate('{photo_public_id}');"><span class="icon rotate"></span></span>
                 </div>
+                <!-- end_photo_public_action -->
                 </div>
             </div>
             <!-- end_photo_public -->
             <div class="cl"></div>
         </div>
         <!-- end_photo_public_block -->
+        <!-- begin_photo_private_block -->
+        <div class="title line">
+            <div class="title_icon_edit">{l_private_photos}</div>
+            <div class="cl"></div>
+        </div>
+        <div id="albums-private_to_scroll" class="list_photos_private list_photos">
+            <!-- begin_photo_private_add -->
+            <div id="photo_add_private" class="item add_photo">
+                <div class="add_file_icon"  onclick="return clPhoto.checkUploadLimit();">
+                    <form onsubmit="clPhoto.submitUpload($(this)); return false;" data-type="private" class="form_add_photo" method="post" enctype="multipart/form-data" action="{url_main}profile_photo.php?type=private">
+                        <input onclick="clPhoto.clickUpload($(this));" onChange="clPhoto.changeUpload($(this));" data-type="private" class="file" type="file" accept="image/*" name="file_add_private" />
+                        <input type="reset" value=""/>
+                        <input type="submit" value=""/>
+                    </form>
+                </div>
+            </div>
+            <!-- end_photo_private_add -->
+            <!-- begin_photo_private -->
+            <div id="photo_item_{photo_private_id}" class="item">
+                <div class="item_cont loader" onclick="clPhoto.openGalleryId('{photo_private_id}', $(this), event);">
+                <a href="#tabs-3" onclick="return false;">
+                    <img id="photo_{photo_private_id}" oncontextmenu="return false;" class="photo lazy_deferred" data-src="{url_files}{url_photo_private}" src="{url_tmpl_mobile}images/loader_lazy.svg" alt="" />
+                </a>
+                <script>clPhoto.setPhotoInfo('{photo_private_id}', {gallery_photo_private_info});</script>
+                <!-- begin_photo_private_not_checked -->
+                <div class="not_checked_photo icons_action" title="{a_being_checked_by_moderators}"></div>
+                <!-- end_photo_private_not_checked -->
+                <!-- begin_photo_private_action -->
+                <div class="icons_photo icons_action">
+                    <span class="icon_background" onclick="clPhoto.confirmPhotoDelete('{photo_private_id}');"><span class="icon cancel"></span></span>
+                    <span class="icon_background" onclick="clPhoto.photoAccess('{photo_private_id}');"><span class="icon unlock icon_status"></span></span>
+                    <span class="icon_background" onclick="clPhoto.photoRotate('{photo_private_id}');"><span class="icon rotate"></span></span>
+                </div>
+                <!-- end_photo_private_action -->
+                </div>
+            </div>
+            <!-- end_photo_private -->
+            <div class="cl"></div>
+        </div>
+        <!-- end_photo_private_block -->
         <!-- begin_video_public_block -->
         <div class="title line">
             <div class="title_icon_edit">{l_videos}</div>

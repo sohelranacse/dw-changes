@@ -1134,11 +1134,15 @@ $(function(){
             $resendCode.text('Resend code in ' + remainingTime + 's');
 
             var timerInterval = setInterval(function () {
-                remainingTime--;
+                var minutes = Math.floor(remainingTime / 60); // Get minutes
+                var seconds = remainingTime % 60; // Get seconds
 
-                if (remainingTime > 0) {
-                    $resendCode.text('Resend code in ' + remainingTime + 's');
-                } else {
+                // Update the text with minutes and seconds
+                $resendCode.text('Resend code in ' + minutes + ' minutes ' + seconds + ' seconds later');
+
+                remainingTime--; // Decrease the remaining time
+
+                if (remainingTime < 0) {
                     clearInterval(timerInterval);
                     $resendCode.text(''); // Clear timer text
                     $("#request_otp_pin_again")

@@ -130,6 +130,29 @@ var positionTabWall='{position_tab_wall}';
                         <img src="{url_tmpl_main}images/nid.png" width="40" height="40" alt="{l_nid_verified} icon" title="{l_nid_verified}" />
                         <!-- end_nid_verified -->
                     </div>
+
+
+                    <div style="margin: 20px 0 0 10px;">
+                        <!-- begin_blured_image -->
+                        <div class="switch-container">
+                            <input type="checkbox" id="hidePicture" value="1" onclick="Profile.hideMyProfilePicture(this.value)">
+                            <label for="hidePicture" class="switch-label">
+                                <span class="switch-slider"></span>
+                            </label>
+                            <strong>Hide Profile Picture</strong>
+                        </div>
+                        <!-- end_blured_image -->
+
+                        <!-- begin_no_blured_image -->
+                        <div class="switch-container">
+                            <input type="checkbox" id="hidePicture" value="0" checked onclick="Profile.hideMyProfilePicture(this.value)">
+                            <label for="hidePicture" class="switch-label">
+                                <span class="switch-slider"></span>
+                            </label>
+                            <strong>Show Profile Picture</strong>
+                        </div>
+                        <!-- end_no_blured_image -->
+                    </div>
                     
                 </div>
             </div>

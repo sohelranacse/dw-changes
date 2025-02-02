@@ -1181,6 +1181,7 @@ class CProfilePhoto extends CHtmlBlock
     {
         global $g;
         global $g_user;
+        $allow = ($uid == EUsers_List::$c_user_id || $uid == $g_user['c_user_id']) ? 1 : 0;
 
         if ($uid === null) {
             $uid = guid();
@@ -1219,7 +1220,7 @@ class CProfilePhoto extends CHtmlBlock
                 if ($type == 'private'){
                     $isFriend = User::isFriend($g_user['user_id'], $uid);
                     $isFriendRequestExists = User::isFriendRequestExists($uid, $g_user['user_id']);
-                    if (!$isFriend && !$isFriendRequestExists && (guid() != $photo['user_id']))
+                    if (!$isFriend && !$isFriendRequestExists && (guid() != $photo['user_id']) || $allow == 1)
                     {
                         $html->setvar("{$typeBlock}_title", ' ');
                     } else if (($isFriend) or (guid() == $photo['user_id'])) {
@@ -1257,7 +1258,7 @@ class CProfilePhoto extends CHtmlBlock
                 /* City */
 
                 $html->setvar("{$typeBlock}_id", $photo_id);
-                if (guid() == $uid) {
+                if (guid() == $uid || $allow == 1) {
                     //$html->setvar("{$typeBlock}_offset", $offset);
                     $html->parse("{$typeBlock}_action", false);
                 }
@@ -1272,7 +1273,7 @@ class CProfilePhoto extends CHtmlBlock
 
         $isFriend = User::isFriend($g_user['user_id'], $uid);
         $isFriendRequestExists = User::isFriendRequestExists($uid, $g_user['user_id']);
-        if ($g_user['user_id'] == $uid) {
+        if ($g_user['user_id'] == $uid || $allow == 1) {
 			$html->parse("{$typeBlock}_more");
             $html->parse("{$typeBlock}_add");
         } else if ($type == 'private'
@@ -1283,9 +1284,7 @@ class CProfilePhoto extends CHtmlBlock
             $html->parse("{$typeBlock}_can_view");
         }
 
-		if (!empty($userPhoto) || $g_user['user_id'] == $uid
-            || ($uid == EUsers_List::$c_user_id || $uid = $g_user['c_user_id'])
-        ) { // updated by Sohel
+		if (!empty($userPhoto) || $g_user['user_id'] == $uid || $allow == 1) { // updated by Sohel
 			$html->parse($block);
 		}
     }

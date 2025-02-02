@@ -4349,10 +4349,6 @@ a:hover > img.disabled-img {
 
 
 /*push button*/
-.switch-container {
-  margin-left: 15px !important;
-  display: inline-block;
-}
 
 .js-push-checkbox {
   display: none;
@@ -4686,4 +4682,52 @@ a:hover > img.disabled-img {
     line-height: 42px;
     background: #fff;
     color: #222;
+}
+
+
+/* Style for the container */
+.switch-container {
+    display: flex;
+    position: relative;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Hide the default checkbox */
+.switch-container input[type="checkbox"] {
+  display: none;
+}
+
+/* Style for the label to look like a switch */
+.switch-label {
+  display: block;
+  width: 50px;
+  height: 25px;
+  background-color: #ccc;
+  border-radius: 50px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* The circle inside the switch */
+.switch-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 21px;
+  height: 21px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Change the background color and move the slider when checked */
+.switch-container input[type="checkbox"]:checked + .switch-label {
+  background-color: #4caf50;
+}
+
+.switch-container input[type="checkbox"]:checked + .switch-label .switch-slider {
+  transform: translateX(25px);
 }

@@ -225,6 +225,28 @@
             <img src="{url_tmpl_mobile}images/nid.png" width="30" height="30" alt="{l_nid_verified} icon" title="{l_nid_verified}" />
             <!-- end_nid_verified -->
         </div>
+        
+        <div style="margin: 10px 0;">
+            <!-- begin_blured_image -->
+            <div class="switch-container">
+                <input type="checkbox" id="hidePicture" value="1" onclick="clProfile.hideMyProfilePicture(this.value)">
+                <label for="hidePicture" class="switch-label">
+                    <span class="switch-slider"></span>
+                </label>
+                <strong>Hide Profile Picture</strong>
+            </div>
+            <!-- end_blured_image -->
+
+            <!-- begin_no_blured_image -->
+            <div class="switch-container">
+                <input type="checkbox" id="hidePicture" value="0" checked onclick="clProfile.hideMyProfilePicture(this.value)">
+                <label for="hidePicture" class="switch-label">
+                    <span class="switch-slider"></span>
+                </label>
+                <strong>Show Profile Picture</strong>
+            </div>
+            <!-- end_no_blured_image -->
+        </div>
 
         <!-- begin_profile_status_visitor -->
         <div class="bl">

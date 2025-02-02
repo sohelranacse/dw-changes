@@ -206,6 +206,34 @@ siteTitle = '{user_name}'; // added by sohel
                     <li><span class="basic_info">•</span><span id="info_looking_for_ages">{looking_for_ages}</span></li>
                     <!-- end_looking_for_ages -->
                 </ul>
+
+
+
+                <div style="margin: 10px 0 0 10px;">
+                    <!-- begin_blured_image -->
+                    <div class="switch-container">
+                        <input type="checkbox" id="hidePicture" value="1" onclick="Profile.hideMyProfilePicture(this.value)">
+                        <label for="hidePicture" class="switch-label">
+                            <span class="switch-slider"></span>
+                        </label>
+                        <strong>Hide Profile Picture</strong>
+                    </div>
+                    <!-- end_blured_image -->
+
+                    <!-- begin_no_blured_image -->
+                    <div class="switch-container">
+                        <input type="checkbox" id="hidePicture" value="0" checked onclick="Profile.hideMyProfilePicture(this.value)">
+                        <label for="hidePicture" class="switch-label">
+                            <span class="switch-slider"></span>
+                        </label>
+                        <strong>Show Profile Picture</strong>
+                    </div>
+
+                    <!-- <input type="checkbox" id="hidePicture" value="0" onclick="Profile.hideMyProfilePicture(this.value)"> -->
+                    <!-- <label for="hidePicture">Show My Profile Picture</label> -->
+                    <!-- end_no_blured_image -->
+                </div>
+
             </div>
             <div class="cl"></div>
         </div>
@@ -740,6 +768,7 @@ siteTitle = '{user_name}'; // added by sohel
                     <div class="list_photos_public">
                         <div class="list_photos_trans">
                         
+                        <!-- begin_photo_public_add -->
                         <div id="photo_add_public" class="item add_photo add_photo_public">
 
                             <a href="#null"><img src="{url_tmpl_main}images/add_photo126x140.png" alt="" /></a>
@@ -748,6 +777,7 @@ siteTitle = '{user_name}'; // added by sohel
                                 <input id="some_add_photo_public_reset" type="reset" value=""/>
                             </form>
                         </div>
+                        <!-- end_photo_public_add -->
                         <!-- begin_photo_public -->
                         <div id="{photo_public_id}"  class="item profile_photo_frame">
                             <a onclick="Photo.openGalleryId('{photo_public_id}'); return false;" data-offset-id="{photo_public_id}" class="show_photo_gallery" style="opacity:0;" href="">
@@ -759,14 +789,20 @@ siteTitle = '{user_name}'; // added by sohel
                             <script>
                             Photo.setPhotoInfo('{photo_public_id}', 'public', {gallery_photo_public_info});
                             </script>
+                            <!-- begin_photo_public_action -->
                             <span onclick="Photo.confirmPhotoDelete('{photo_public_id}');" title="{a_delete_photo}" class="icon_delete">
                                 <span class="icon_delete_photo"></span>
                                 <span class="icon_delete_photo_hover"></span>
                             </span>
-                            <span id="photo_rotate_{photo_public_id}" data-photo-id="{photo_public_id}" title="{a_rotate}" class="icon_rotate">
-                                <span class="icon_rotate_photo" style="top: 34px"></span>
-                                <span class="icon_rotate_photo_hover" style="top: 34px"></span>
+                            <span onclick="Photo.setAccess('{photo_public_id}')" id="profile_photo_set_status_{photo_public_id}" title="{a_make_private}" class="icon_private">
+                                <span class="icon_private_photo"></span>
+                                <span class="icon_private_photo_hover"></span>
                             </span>
+                            <span id="photo_rotate_{photo_public_id}" data-photo-id="{photo_public_id}" title="{a_rotate}" class="icon_rotate">
+                                <span class="icon_rotate_photo"></span>
+                                <span class="icon_rotate_photo_hover"></span>
+                            </span>
+                            <!-- end_photo_public_action -->
                         </div>
                         <!-- end_photo_public -->
                         </div>
@@ -786,6 +822,75 @@ siteTitle = '{user_name}'; // added by sohel
                         <div class="cl"></div>
                     </div>
                     <!-- end_photo_public_block -->
+
+                    
+                    <!-- begin_photo_private_block -->
+                    <div class="title_private_photos">
+                        {l_private_photos}
+                    </div>
+                    <div class="list_photos_private">
+                        <div class="list_photos_trans">
+                        <!-- begin_photo_private_add -->
+                        <div id="photo_add_private" class="item add_photo add_photo_private">
+                            <a href="#null"><img src="{url_tmpl_main}images/add_photo126x140.png" alt="" /></a>
+                            <form>
+                                <input id="some_add_photo_private" type="file" title="" multiple name="file_private[]" />
+                                <input id="some_add_photo_private_reset" type='reset' value=''/>
+                            </form>
+                        </div>
+                        <!-- end_photo_private_add -->
+                        <!-- begin_photo_private -->
+                        <div id="{photo_private_id}"  class="item profile_photo_frame">
+                            <a onclick="Photo.openGalleryId('{photo_private_id}'); return false;" data-offset-id="{photo_private_id}" class="show_photo_gallery" style="opacity:0;"  href="">
+                                <!-- begin_photo_private_not_checked -->
+                                <div class="not_checked_photo" title="{a_being_checked_by_moderators}"></div>
+                                <!-- end_photo_private_not_checked -->
+                                <img data-photo-id="{photo_private_id}" oncontextmenu="return false;" id="photo_{photo_private_id}" title="{photo_private_title}" class="photo lazy_deferred" data-src="{url_files}{url_photo_private}" alt="" />
+                            </a>
+                            <script>
+                            Photo.setPhotoInfo('{photo_private_id}', 'private', {gallery_photo_private_info});
+                            </script>
+                            <!-- begin_photo_private_action -->
+                            <span onclick="Photo.confirmPhotoDelete('{photo_private_id}');" title="{a_delete_photo}" class="icon_delete">
+                                <span class="icon_delete_photo"></span>
+                                <span class="icon_delete_photo_hover"></span>
+                            </span>
+                            <span onclick="Photo.setAccess('{photo_private_id}')" id="profile_photo_set_status_{photo_private_id}" title="{a_make_public}" class="icon_public">
+                                <span class="icon_public_photo"></span>
+                                <span class="icon_public_photo_hover"></span>
+                            </span>
+                            <span id="photo_rotate_{photo_private_id}" data-photo-id="{photo_private_id}" title="{a_rotate}" class="icon_rotate">
+                                <span class="icon_rotate_photo"></span>
+                                <span class="icon_rotate_photo_hover"></span>
+                            </span>
+                            <!-- end_photo_private_action -->
+                        </div>
+                        <!-- end_photo_private -->
+                        </div>
+                        <div class="cl"></div>
+                        <!-- begin_photo_private_more -->
+                        <span id="some_link_photo_counter_private" class="some_link_photo_counter"></span>
+                        <div class="some_link_add_photo">
+                            <div>
+                                <form>
+                                    <input id="some_link_photo_private" type="file" title="" multiple name="file_private[]"/>
+                                    <input id="some_link_photo_private_reset" type='reset' value=''/>
+                                </form>
+                            </div>
+                            <a id="some_link_photo_more_private" onclick="return false;" href="#">{l_add_more_plus}</a>
+                        </div>
+                        <!-- end_photo_private_more -->
+
+                        <!-- begin_photo_private_can_view -->
+                        <div class="photo_private_can_view">{l_you_have_access_to_the_users_private_photos}</div>
+                        <!-- end_photo_private_can_view -->
+
+                        <!-- begin_request_access_private_photo -->
+                        <a class="request_access_private_photo" onclick="Photo.sendRequestPrivateAccess('0'); return false;" href="">{l_request_access}</a>
+                        <!-- end_request_access_private_photo -->
+                        <div class="cl"></div>
+                    </div>
+                    <!-- end_photo_private_block -->
 
                     <!-- begin_video_public_block -->
                     <div class="title_private_photos title_videos">

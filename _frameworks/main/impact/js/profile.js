@@ -2738,6 +2738,44 @@ var CProfile = function(guid,spotlightNumber,requestUri,isFreeSite) {
         }
     }
 
+    this.hideMyProfilePicture = function(hide) {
+        $('#preloader').show();
+
+        var e_user_id = 0
+        if($("#ua_user_id").val())
+            e_user_id = $("#ua_user_id").val()
+        
+        $.ajax({
+            url: 'profile_ajax.php',
+            type: 'POST',
+            data: {
+                "cmd": "hide_my_profile",
+                e_user_id: e_user_id,
+                hide
+            },
+ 
+            success:function(data){
+                try {
+                    $('#preloader').hide();
+
+                    var result = JSON.parse(data);
+                    if(result.status == true) {
+                        window.location.href = '';
+                        // alertSpecial("", result.data, "Success!")
+                    } else {
+                        alertSpecial("", l("something_wrong_contact"), "Sorry!")
+                    }
+                } catch (e) {
+                    alertSpecial("", l("something_wrong_contact"), "Sorry!", 'Failed!')
+                }
+            },
+            error: function(xhr, status, error) {
+                alertSpecial("", error, "Sorry!")
+            }
+ 
+        });
+    }
+
 
 
 
